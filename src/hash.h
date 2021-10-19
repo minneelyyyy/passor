@@ -1,6 +1,6 @@
 #ifndef HASH_H
 #define HASH_H
 
-unsigned long hash(unsigned char *str);
+unsigned int hash(const char *str);
 
 #endif /* HASH_H */
