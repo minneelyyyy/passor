@@ -1,7 +1,7 @@
 
-unsigned int hash(const char *str)
+const unsigned long hash(const char *str)
 {
-	unsigned int hash = 5381;
+	unsigned long hash = 5381;
 	int c;
 
 	while ((c = *str++))
