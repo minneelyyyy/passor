@@ -9,7 +9,7 @@ struct mode
 	bool upper: 1;
 	bool numbers: 1;
 	bool symbols: 1;
-	unsigned int length;
+	int length;
 };
 
 #endif /* MODE_H */
