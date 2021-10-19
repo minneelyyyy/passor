@@ -9,6 +9,7 @@ SOURCEFILES=(
     "src/main.c"
     "src/hash.c"
     "src/parse_opts.c"
+    "src/fill_buff_rand.c"
 )
 
 CBUILDMODE=$1
