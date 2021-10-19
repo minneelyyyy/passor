@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	#endif
 
 	if (options.length <= 0)
-		exit(0);
+		return 0;
 
 	char output[options.length + 1];
 	memset(output, 0x0, options.length + 1);
