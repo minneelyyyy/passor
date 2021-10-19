@@ -35,11 +35,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 				break;
 		
 			default:
-			{
-				unsigned int count = atoi(argv[i]);
-
-				m->length = count;
-			}
+				m->length = atoi(argv[i]);
 		}
 	}
 }

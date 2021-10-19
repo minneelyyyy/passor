@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
 
 	fill_buff_rand(output, options, random);
 
+	#ifdef DEBUG
 	printf(
 		".lower   = %d\n"
 		".upper   = %d\n"
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
 		".length  = %d\n",
 		options.lower, options.upper, options.numbers, options.symbols, options.length
 	);
+	#endif
 
 	puts(output);
 }
