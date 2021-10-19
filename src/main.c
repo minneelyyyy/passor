@@ -5,8 +5,10 @@
 #include "parse_opts.h"
 #include "fill_buff_rand.h"
 
+
 static char *program_name;
 static const char *official_name = "passor";
+
 
 void help(int exit_status)
 {
@@ -21,6 +23,7 @@ void help(int exit_status)
 
 	exit(exit_status);
 }
+
 
 int main(int argc, char *argv[])
 {
