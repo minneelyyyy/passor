@@ -7,18 +7,20 @@
 
 
 static char *program_name;
-static const char *official_name = "passor";
 
 
 void help(int exit_status)
 {
 	fprintf(
 		exit_status ? stderr : stdout,
-		"%s - password / random string generator\n"
-		"USAGE: %s\n"
-		"or:    %s [options...] [count]\n",
-		official_name,
-		program_name, program_name
+		"Usage: %s [OPTION]... [LENGTH]\n"
+		"generate a password / random string\n\n"
+
+		"  --no-numbers        generate without number characters\n"
+		"  --no-upper          generate without uppercase characters\n"
+		"  --no-lower          generate without lowercase characters\n"
+		"  --no-symbols        generate without other characters\n\n",
+		program_name
 	);
 
 	exit(exit_status);
@@ -53,11 +55,6 @@ int main(int argc, char *argv[])
 	/* fill the options struct with correct, user given values instead of defaults */
 	parse_opts(&options, argc, argv);
 
-	char output[options.length + 1];
-	memset(output, 0x0, options.length + 1);
-
-	fill_buff_rand(output, options, random);
-
 	#ifdef DEBUG
 	printf(
 		".lower   = %d\n"
@@ -68,6 +65,14 @@ int main(int argc, char *argv[])
 		options.lower, options.upper, options.numbers, options.symbols, options.length
 	);
 	#endif
+
+	if (options.length < 0)
+		exit(0);
+
+	char output[options.length + 1];
+	memset(output, 0x0, options.length + 1);
+
+	fill_buff_rand(output, options, random);
 
 	puts(output);
 }
