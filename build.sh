@@ -19,5 +19,8 @@ CBUILDMODE=$1
 [[ "$CBUILDMODE" = "passor" ]] &&
     gcc ${CBUILDOPTS[@]} -o "passor" ${SOURCEFILES[@]}
 
+[[ "$CBUILDMODE" = "debug" ]] &&
+    gcc ${CBUILDOPTS[@]} -DDEBUG -o "passor" ${SOURCEFILES[@]}
+
 [[ "$CBUILDMODE" = "clean" ]] &&
     rm "passor"
