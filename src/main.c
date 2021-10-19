@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	/* file handle for the random byte generator */
 	FILE *random = fopen("/dev/urandom", "r");
 
-	// if /dev/urandom cannot be opened
+	/* if /dev/urandom cannot be opened */
 	if (!random)
 	{
 		fprintf(stderr, "Failed to open /dev/urandom. exiting.\n");
