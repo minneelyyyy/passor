@@ -52,22 +52,23 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			case NO_SYMBOLS: case ALPHA_NUM:
 				m->symbols = false;
 				break;
-			
+
 			case NUMBER:
 				m->symbols = false;
 				m->upper = false;
 				m->lower = false;
 				break;
-			
+
 			case ALPHA:
 				m->symbols = false;
 				m->numbers = false;
 				break;
-		
+
 			default:
 			{
 				int arg = atoi(argv[i]);
 
+				// check if atoi() returned 0 and if the string is not a valid integer
 				if (arg == 0 && !is_zero(argv[i]))
 				{
 					fprintf(stderr, "passor: error: %s is not a valid argument\n", argv[i]);
