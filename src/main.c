@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "parse_opts.h"
 #include "fill_buff_rand.h"
+#include "mode.h"
 
 
 static char *program_name;
