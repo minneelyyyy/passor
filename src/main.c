@@ -20,7 +20,10 @@ void help(int exit_status)
 		"  --no-upper            generate without uppercase characters\n"
 		"  --no-lower            generate without lowercase characters\n"
 		"  --no-numbers          generate without number characters\n"
-		"  --no-symbols          generate without other characters\n\n",
+		"  --no-symbols          generate without other characters\n"
+		"  --number              generate only a number\n"
+		"  --alpha               generate only alphabetical characters\n"
+		"  --alpha-num           the same as --no-symbols\n\n",
 		program_name
 	);
 
