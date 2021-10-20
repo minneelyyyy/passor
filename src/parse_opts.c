@@ -70,7 +70,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 				if (arg == 0 && !is_zero(argv[i]))
 				{
-					fprintf(stderr, "error: %s: not a valid argument\n", argv[i]);
+					fprintf(stderr, "passor: error: %s is not a valid argument\n", argv[i]);
 					exit(1);
 				}
 				else
