@@ -16,6 +16,7 @@
 #define ALPHA_NUM   13783808862824347298U
 
 
+/* check if a string is an actual zero, as in "0" or "000" */
 static bool is_zero(char *str)
 {
 	const int len = strlen(str);
