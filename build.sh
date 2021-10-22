@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROGRAMNAME="randstr"
+PROGRAMNAME="passor"
 
 CBUILDOPTS=(
     "-Wall" "-Werror"     # warnings
