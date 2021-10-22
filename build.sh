@@ -22,5 +22,8 @@ CBUILDMODE=$1
 [[ "$CBUILDMODE" = "debug" ]] &&
     gcc ${CBUILDOPTS[@]} -DDEBUG -o "passor" ${SOURCEFILES[@]}
 
+[[ "$CBUILDMODE" = "install" ]] &&
+    mv "./passor" "/usr/bin/passor"
+
 [[ "$CBUILDMODE" = "clean" ]] &&
     rm "passor"
