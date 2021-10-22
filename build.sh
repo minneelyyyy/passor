@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+PROGRAMNAME="randstr"
+
 CBUILDOPTS=(
     "-Wall" "-Werror"     # warnings
     "-O3" "-march=native" # performance
@@ -14,16 +16,16 @@ SOURCEFILES=(
 
 CBUILDMODE=$1
 
-[[ "$CBUILDMODE" = "" ]] && CBUILDMODE="passor"
+[[ "$CBUILDMODE" = "" ]] && CBUILDMODE="$PROGRAMNAME"
 
-[[ "$CBUILDMODE" = "passor" ]] &&
-    gcc ${CBUILDOPTS[@]} -o "passor" ${SOURCEFILES[@]}
+[[ "$CBUILDMODE" = "$PROGRAMNAME" ]] &&
+    gcc ${CBUILDOPTS[@]} -o "$PROGRAMNAME" ${SOURCEFILES[@]}
 
 [[ "$CBUILDMODE" = "debug" ]] &&
-    gcc ${CBUILDOPTS[@]} -DDEBUG -o "passor" ${SOURCEFILES[@]}
+    gcc ${CBUILDOPTS[@]} -DDEBUG -o "$PROGRAMNAME" ${SOURCEFILES[@]}
 
 [[ "$CBUILDMODE" = "install" ]] &&
-    mv "./passor" "/usr/bin/passor"
+    mv "./$PROGRAMNAME" "/usr/bin/$PROGRAMNAME"
 
 [[ "$CBUILDMODE" = "clean" ]] &&
-    rm "passor"
+    rm "$PROGRAMNAME"
