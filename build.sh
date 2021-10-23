@@ -4,7 +4,7 @@ PROGRAMNAME="passor"
 
 CBUILDOPTS=(
     "-Wall" "-Werror"     # warnings
-    "-O3" "-march=native" # performance
+    "-O3" "-march=native" # optimization
 )
 
 SOURCEFILES=(
@@ -18,14 +18,25 @@ CBUILDMODE=$1
 
 [[ "$CBUILDMODE" = "" ]] && CBUILDMODE="$PROGRAMNAME"
 
-[[ "$CBUILDMODE" = "$PROGRAMNAME" ]] &&
+function build {
     gcc ${CBUILDOPTS[@]} -o "$PROGRAMNAME" ${SOURCEFILES[@]}
+}
 
-[[ "$CBUILDMODE" = "debug" ]] &&
+function debug {
     gcc ${CBUILDOPTS[@]} -DDEBUG -o "$PROGRAMNAME" ${SOURCEFILES[@]}
+}
 
-[[ "$CBUILDMODE" = "install" ]] &&
+function install {
     mv "./$PROGRAMNAME" "/usr/bin/$PROGRAMNAME"
+}
 
-[[ "$CBUILDMODE" = "clean" ]] &&
+function clean {
     rm "$PROGRAMNAME"
+}
+
+if [[ "$CBUILDMODE" = "$PROGRAMNAME" ]]
+then
+	build
+else
+	$CBUILDMODE
+fi
