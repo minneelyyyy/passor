@@ -2,6 +2,8 @@
 #include <string.h>
 #include "mode.h"
 
+#define inrange(c, a, z) a <= c && c <= z
+
 static char get_rand_char(struct mode m, FILE *random)
 {
 	char c;
@@ -10,13 +12,13 @@ static char get_rand_char(struct mode m, FILE *random)
 	{
 		c = getc(random) % 93 + 33;
 
-		if (!m.upper && c <= 'Z' && c >= 'A')
+		if (!m.upper && inrange(c, 'A', 'Z'))
 			continue;
 		
-		if (!m.lower && c <= 'z' && c >= 'a')
+		if (!m.lower && inrange(c, 'a', 'z'))
 			continue;
 		
-		if (!m.numbers && c >= '0' && c <= '9')
+		if (!m.numbers && inrange(c, '0', '9'))
 			continue;
 		
 		if (!m.symbols && !!strchr("`!@#$%^&*()-=_+[]{}\\|;:'\",<.>/?", c))
