@@ -17,10 +17,10 @@ void help(int exit_status)
 		"Usage: %s [OPTION]... [LENGTH]\n"
 		"generate a password / random string\n\n"
 
-		"  --no-upper            generate without uppercase characters\n"
-		"  --no-lower            generate without lowercase characters\n"
-		"  --no-numbers          generate without number characters\n"
-		"  --no-symbols          generate without other characters\n"
+		"  -U, --no-upper        generate without uppercase characters\n"
+		"  -L, --no-lower        generate without lowercase characters\n"
+		"  -N, --no-numbers      generate without number characters\n"
+		"  -S, --no-symbols      generate without other characters\n"
 		"  --number              generate only a number\n"
 		"  --alpha               generate only alphabetical characters\n"
 		"  --alpha-num           the same as --no-symbols\n\n",
