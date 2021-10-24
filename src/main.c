@@ -60,22 +60,26 @@ int main(int argc, char *argv[])
 	parse_opts(&options, argc, argv);
 
 	#ifdef DEBUG
-	printf(
-		".lower   = %d\n"
-		".upper   = %d\n"
-		".numbers = %d\n"
-		".symbols = %d\n"
-		".length  = %d\n",
-		options.lower, options.upper, options.numbers, options.symbols, options.length
-	);
+		printf(
+			".lower   = %d\n"
+			".upper   = %d\n"
+			".numbers = %d\n"
+			".symbols = %d\n"
+			".length  = %d\n",
+			options.lower, options.upper, options.numbers, options.symbols, options.length
+		);
 	#endif
 
 	if (options.length <= 0)
 		return 0;
 
-	char output[options.length + 1];
-	memset(output, 0x0, options.length + 1);
-
+	#ifdef STACK_ONLY
+		char output[options.length + 1];
+		memset(output, 0x0, options.length + 1);
+	#else
+		char *output = calloc(options.length + 1, sizeof(char));
+	#endif
+	
 	fill_buff_rand(output, options, random);
 
 	puts(output);
