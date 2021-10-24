@@ -35,48 +35,82 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 {
 	for (int i = 1; i < argc; i++)
 	{
-		switch (hash(argv[i]))
+		if (argv[i][0] == '-' && argv[i][1] != '-')
 		{
-			case NO_NUMBERS:
-				m->numbers = false;
-				break;
-
-			case NO_UPPER:
-				m->upper = false;
-				break;
-
-			case NO_LOWER:
-				m->lower = false;
-				break;
-
-			case NO_SYMBOLS: case ALPHA_NUM:
-				m->symbols = false;
-				break;
-
-			case NUMBER:
-				m->symbols = false;
-				m->upper = false;
-				m->lower = false;
-				break;
-
-			case ALPHA:
-				m->symbols = false;
-				m->numbers = false;
-				break;
-
-			default:
+			for (int j = 0; j < strlen(argv[i]); j++)
 			{
-				int arg = atoi(argv[i]);
+				switch (argv[i][j])
+				{
+					case 'N':
+						m->numbers = false;
+						break;
 
-				// check if atoi() returned 0 and if the string is not a valid integer
-				if (arg == 0 && !is_zero(argv[i]))
-				{
-					fprintf(stderr, "passor: error: %s is not a valid argument\n", argv[i]);
-					exit(1);
+					case 'U':
+						m->upper = false;
+						break;
+
+					case 'L':
+						m->lower = false;
+						break;
+
+					case 'S':
+						m->symbols = false;
+						break;
+
+					case '-':
+						break;
+
+					default:
+						fprintf(stderr, "passor: error: %c is not a valid argument\n", argv[i][j]);
+						exit(1);
 				}
-				else
+			}
+		}
+		else
+		{
+			switch (hash(argv[i]))
+			{
+				case NO_NUMBERS:
+					m->numbers = false;
+					break;
+
+				case NO_UPPER:
+					m->upper = false;
+					break;
+
+				case NO_LOWER:
+					m->lower = false;
+					break;
+
+				case NO_SYMBOLS: case ALPHA_NUM:
+					m->symbols = false;
+					break;
+
+				case NUMBER:
+					m->symbols = false;
+					m->upper = false;
+					m->lower = false;
+					break;
+
+				case ALPHA:
+					m->symbols = false;
+					m->numbers = false;
+					break;
+
+				default:
 				{
-					m->length = arg;
+					int arg = atoi(argv[i]);
+
+					// check if atoi() returned 0 and if the string is not a valid integer
+					if (arg == 0 && !is_zero(argv[i]))
+					{
+						fprintf(stderr, "passor: error: %s is not a valid argument\n", argv[i]);
+						exit(1);
+					}
+					else
+					{
+						m->length = arg;
+					}
 				}
 			}
 		}
