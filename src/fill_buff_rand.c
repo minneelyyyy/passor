@@ -14,16 +14,16 @@ static char get_rand_char(struct mode m, FILE *random)
 
 		if (!m.upper && inrange(c, 'A', 'Z'))
 			continue;
-		
+
 		if (!m.lower && inrange(c, 'a', 'z'))
 			continue;
-		
+
 		if (!m.numbers && inrange(c, '0', '9'))
 			continue;
-		
+
 		if (!m.symbols && !!strchr("`!@#$%^&*()-=_+[]{}\\|;:'\",<.>/?", c))
 			continue;
-		
+
 		break;
 	}
 
