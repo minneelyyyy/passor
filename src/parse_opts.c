@@ -23,7 +23,7 @@
 	{                                                               \
 		if (bool_set == true)                                       \
 		{                                                           \
-			fprintf(stderr, "passor: error: %s set twice", string); \
+			fprintf(stderr, "passor: error: %s set twice\n", string); \
 			exit(1);                                                \
 		}                                                           \
 		bool_set = true;                                            \
