@@ -25,6 +25,7 @@
 #define ALPHA_NUM   13783808862824347298U
 #define BASE64		    7569864675294820U
 #define DONT_ALLOW  12143978086140558272U
+#define NO_SPACES   13783827187913493800U
 
 
 /* check if a string is an actual zero, as in "0" or "000" */
@@ -114,6 +115,11 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					i++;
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
+				
+				case NO_SPACES: CHECK_BASE64_ENABLED
+					strcat(m->characters_not_allowed, " ");
+				
+				case 
 
 				case BASE64:
 					if (base64_enabled == true)
@@ -125,7 +131,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					base64_enabled = true;
 
 					// characters not part of base64
-					strcat(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>?");
+					strcat(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>? ");
 					break;
 
 				default:
