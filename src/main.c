@@ -61,12 +61,13 @@ int main(int argc, char *argv[])
 
 	#ifdef DEBUG
 		printf(
-			".lower   = %d\n"
-			".upper   = %d\n"
-			".numbers = %d\n"
-			".symbols = %d\n"
-			".length  = %d\n",
-			options.lower, options.upper, options.numbers, options.symbols, options.length
+			".lower                  = %d\n"
+			".upper                  = %d\n"
+			".numbers                = %d\n"
+			".symbols                = %d\n"
+			".characters_not_allowed = \"%s\"\n"
+			".length                 = %d\n",
+			options.lower, options.upper, options.numbers, options.symbols, options.characters_not_allowed, options.length
 		);
 	#endif
 

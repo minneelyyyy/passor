@@ -109,7 +109,12 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					m->symbols = false;
 					m->numbers = false;
 					break;
-				
+
+				case DONT_ALLOW: CHECK_BASE64_ENABLED
+					i++;
+					strcat(m->characters_not_allowed, argv[i]);
+					break;
+
 				case BASE64:
 					if (base64_enabled == true)
 					{
@@ -120,7 +125,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					base64_enabled = true;
 
 					// characters not part of base64
-					strcpy(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>?");
+					strcat(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>?");
 					break;
 
 				default:
