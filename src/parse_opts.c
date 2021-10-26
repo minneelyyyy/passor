@@ -6,19 +6,10 @@
 #include "hash.h"
 
 
-#define CHECK_BASE64_ENABLED \
-	{ \
-		if (base64_enabled == true) \
-		{ \
-			fprintf(stderr, "passor: error: base64 cannot be used with other arguments\n"); \
-			exit(1); \
-		} \
-	}
-
 /* very funny magic numbers */
-#define NO_NUMBERS  12144439425868588933U
 #define NO_UPPER     8243583158179576629U
 #define NO_LOWER     8243583158168875026U
+#define NO_NUMBERS  12144439425868588933U
 #define NO_SYMBOLS  12144439432482481042U
 #define NUMBER          7569865168420680U
 #define ALPHA            229389837851557U
@@ -26,6 +17,17 @@
 #define BASE64		    7569864675294820U
 #define DONT_ALLOW  12143978086140558272U
 #define NO_SPACES   13783827187913493800U
+
+
+#define CHECK_SET(bool_set, string)                                 \
+	{                                                               \
+		if (bool_set == true)                                       \
+		{                                                           \
+			fprintf(stderr, "passor: error: %s set twice", string); \
+			exit(1);                                                \
+		}                                                           \
+		bool_set = true;                                            \
+	}
 
 
 /* check if a string is an actual zero, as in "0" or "000" */
@@ -42,10 +44,33 @@ static bool is_zero(char *str)
 	return true;
 }
 
+struct options_set {
+	bool no_upper: 1;
+	bool no_lower: 1;
+	bool no_numbers: 1;
+	bool no_symbols: 1;
+	bool number: 1;
+	bool alpha: 1;
+	bool alpha_num: 1;
+	bool base64: 1;
+	bool dont_allow: 1;
+	bool no_spaces: 1;
+};
 
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
-	bool base64_enabled = false;
+	struct options_set set = {
+		.no_upper = false,
+		.no_lower = false,
+		.no_numbers = false,
+		.no_symbols = false,
+		.number = false,
+		.alpha = false,
+		.alpha_num = false,
+		.base64 = false,
+		.dont_allow = false,
+		.no_spaces = false,
+	};
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -55,23 +80,33 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			{
 				switch (argv[i][j])
 				{
-					case 'N': CHECK_BASE64_ENABLED
-						m->numbers = false;
-						break;
+					case 'U':
+						CHECK_SET(set.no_upper, "flag U");
 
-					case 'U': CHECK_BASE64_ENABLED
 						m->upper = false;
 						break;
 
-					case 'L': CHECK_BASE64_ENABLED
+					case 'L':
+						CHECK_SET(set.no_lower, "flag L");
+						
 						m->lower = false;
 						break;
 
-					case 'S': CHECK_BASE64_ENABLED
+					case 'N':
+						CHECK_SET(set.no_numbers, "flag N");
+
+						m->numbers = false;
+						break;
+
+					case 'S':
+						CHECK_SET(set.no_symbols, "flag S");
+
 						m->symbols = false;
 						break;
 					
-					case 's': CHECK_BASE64_ENABLED
+					case 's':
+						CHECK_SET(set.no_spaces, "flag s");
+
 						strcat(m->characters_not_allowed, " ");
 						break;
 
@@ -88,50 +123,66 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 		{
 			switch (hash(argv[i]))
 			{
-				case NO_NUMBERS: CHECK_BASE64_ENABLED
-					m->numbers = false;
-					break;
+				case NO_UPPER:
+					CHECK_SET(set.no_upper, "--no-upper");
 
-				case NO_UPPER: CHECK_BASE64_ENABLED
 					m->upper = false;
 					break;
 
-				case NO_LOWER: CHECK_BASE64_ENABLED
+				case NO_LOWER:
+					CHECK_SET(set.no_lower, "--no-lower");
+
 					m->lower = false;
 					break;
+			
+				case NO_NUMBERS:
+					CHECK_SET(set.no_numbers, "--no-numbers");
 
-				case NO_SYMBOLS: case ALPHA_NUM: CHECK_BASE64_ENABLED
+					m->numbers = false;
+					break;
+
+				case NO_SYMBOLS:
+					CHECK_SET(set.no_symbols, "--no-symbols");
+					
 					m->symbols = false;
 					break;
 
-				case NUMBER: CHECK_BASE64_ENABLED
+				case NUMBER:
+					CHECK_SET(set.number, "--number");
+					
 					m->symbols = false;
 					m->upper = false;
 					m->lower = false;
 					break;
 
-				case ALPHA: CHECK_BASE64_ENABLED
+				case ALPHA:
+					CHECK_SET(set.alpha, "--alpha");
+					
 					m->symbols = false;
 					m->numbers = false;
 					break;
+				
+				case ALPHA_NUM:
+					CHECK_SET(set.alpha_num, "--alpha-num");
+					
+					m->symbols = false;
+					break;
 
-				case DONT_ALLOW: CHECK_BASE64_ENABLED
+				case DONT_ALLOW:
+					CHECK_SET(set.dont_allow, "--dont-allow");
+					
 					i++;
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
 				
-				case NO_SPACES: CHECK_BASE64_ENABLED
+				case NO_SPACES:
+					CHECK_SET(set.no_spaces, "--no-spaces");
+					
 					strcat(m->characters_not_allowed, " ");
 					break;
 
 				case BASE64:
-					if (base64_enabled == true)
-					{
-						fprintf(stderr, "passor: error: base64 already set");
-						exit(1);
-					}
-
-					base64_enabled = true;
+					CHECK_SET(set.base64, "--base64");
 
 					// characters not part of base64
 					strcat(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>? ");
