@@ -70,6 +70,10 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					case 'S': CHECK_BASE64_ENABLED
 						m->symbols = false;
 						break;
+					
+					case 's': CHECK_BASE64_ENABLED
+						strcat(m->characters_not_allowed, " ");
+						break;
 
 					case '-':
 						break;
