@@ -16,7 +16,7 @@
 #define ALPHA_NUM   13783808862824347298U
 #define BASE64		    7569864675294820U
 #define DONT_ALLOW  12143978086140558272U
-#define NO_SPACES   13783827187913493800U
+#define SPACES          7569865357737886U
 
 
 #define CHECK_SET(bool_set, string)                                 \
@@ -44,6 +44,14 @@ static bool is_zero(char *str)
 	return true;
 }
 
+static void str_chr_replace(char *str, char dest, char src)
+{
+	while (*str != dest && *str != '\0')
+		str++;
+	
+	*str = src;
+}
+
 struct options_set {
 	bool no_upper: 1;
 	bool no_lower: 1;
@@ -54,7 +62,7 @@ struct options_set {
 	bool alpha_num: 1;
 	bool base64: 1;
 	bool dont_allow: 1;
-	bool no_spaces: 1;
+	bool spaces: 1;
 };
 
 void parse_opts(struct mode *m, int argc, char *argv[])
@@ -69,7 +77,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 		.alpha_num = false,
 		.base64 = false,
 		.dont_allow = false,
-		.no_spaces = false,
+		.spaces = false,
 	};
 
 	for (int i = 1; i < argc; i++)
@@ -105,9 +113,9 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 						break;
 					
 					case 's':
-						CHECK_SET(set.no_spaces, "flag s");
+						CHECK_SET(set.spaces, "flag s");
 
-						strcat(m->characters_not_allowed, " ");
+						str_chr_replace(m->characters_not_allowed, ' ', 0x1);
 						break;
 
 					case '-':
@@ -175,10 +183,11 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
 				
-				case NO_SPACES:
-					CHECK_SET(set.no_spaces, "--no-spaces");
+				case SPACES:
+					CHECK_SET(set.spaces, "--spaces");
 					
-					strcat(m->characters_not_allowed, " ");
+					// replace all spaces with ascii 1 (an unused character by the program)
+					str_chr_replace(m->characters_not_allowed, ' ', 0x1);
 					break;
 
 				case BASE64:
