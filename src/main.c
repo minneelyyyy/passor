@@ -23,7 +23,9 @@ void help(int exit_status)
 		"  -S, --no-symbols      generate without other characters\n"
 		"  --number              generate only a number\n"
 		"  --alpha               generate only alphabetical characters\n"
-		"  --alpha-num           the same as --no-symbols\n\n",
+		"  --alpha-num           the same as --no-symbols\n"
+		"  --dont-allow <string> don't allow generation to use characters in this string\n"
+		"  --base64              generate a base64 string\n\n",
 		program_name
 	);
 
