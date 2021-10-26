@@ -118,8 +118,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 				
 				case NO_SPACES: CHECK_BASE64_ENABLED
 					strcat(m->characters_not_allowed, " ");
-				
-				case 
+					break;
 
 				case BASE64:
 					if (base64_enabled == true)
