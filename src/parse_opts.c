@@ -19,14 +19,14 @@
 #define SPACES          7569865357737886U
 
 
-#define CHECK_SET(bool_set, string)                                 \
-	{                                                               \
-		if (bool_set == true)                                       \
-		{                                                           \
+#define CHECK_SET(bool_set, string)                                   \
+	{                                                                 \
+		if (bool_set == true)                                         \
+		{                                                             \
 			fprintf(stderr, "passor: error: %s set twice\n", string); \
-			exit(1);                                                \
-		}                                                           \
-		bool_set = true;                                            \
+			exit(1);                                                  \
+		}                                                             \
+		bool_set = true;                                              \
 	}
 
 
@@ -96,7 +96,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 					case 'L':
 						CHECK_SET(set.no_lower, "flag L");
-						
+
 						m->lower = false;
 						break;
 
@@ -111,7 +111,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 						m->symbols = false;
 						break;
-					
+
 					case 's':
 						CHECK_SET(set.spaces, "flag s");
 
@@ -142,7 +142,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 					m->lower = false;
 					break;
-			
+
 				case NO_NUMBERS:
 					CHECK_SET(set.no_numbers, "--no-numbers");
 
@@ -151,13 +151,13 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 				case NO_SYMBOLS:
 					CHECK_SET(set.no_symbols, "--no-symbols");
-					
+
 					m->symbols = false;
 					break;
 
 				case NUMBER:
 					CHECK_SET(set.number, "--number");
-					
+
 					m->symbols = false;
 					m->upper = false;
 					m->lower = false;
@@ -165,29 +165,15 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 				case ALPHA:
 					CHECK_SET(set.alpha, "--alpha");
-					
+
 					m->symbols = false;
 					m->numbers = false;
 					break;
-				
+
 				case ALPHA_NUM:
 					CHECK_SET(set.alpha_num, "--alpha-num");
-					
-					m->symbols = false;
-					break;
 
-				case DONT_ALLOW:
-					CHECK_SET(set.dont_allow, "--dont-allow");
-					
-					i++;
-					strcat(m->characters_not_allowed, argv[i]);
-					break;
-				
-				case SPACES:
-					CHECK_SET(set.spaces, "--spaces");
-					
-					// replace all spaces with ascii 1 (an unused character by the program)
-					str_chr_replace(m->characters_not_allowed, ' ', 0x1);
+					m->symbols = false;
 					break;
 
 				case BASE64:
@@ -195,6 +181,20 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 					// characters not part of base64
 					strcat(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>? ");
+					break;
+
+				case DONT_ALLOW:
+					CHECK_SET(set.dont_allow, "--dont-allow");
+
+					i++;
+					strcat(m->characters_not_allowed, argv[i]);
+					break;
+
+				case SPACES:
+					CHECK_SET(set.spaces, "--spaces");
+
+					// replace all spaces with ascii 1 (an unused character by the program)
+					str_chr_replace(m->characters_not_allowed, ' ', 0x1);
 					break;
 
 				default:
