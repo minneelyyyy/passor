@@ -24,6 +24,9 @@ static char get_rand_char(struct mode m, FILE *random)
 		if (!m.symbols && !!strchr("`!@#$%^&*()-=_+[]{}\\|;:'\",<.>/?", c))
 			continue;
 
+		if (!!strchr(m.characters_not_allowed, c))
+			continue;
+
 		break;
 	}
 

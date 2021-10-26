@@ -9,6 +9,7 @@ struct mode
 	bool upper: 1;
 	bool numbers: 1;
 	bool symbols: 1;
+	char characters_not_allowed[32];
 	int length;
 };
 
