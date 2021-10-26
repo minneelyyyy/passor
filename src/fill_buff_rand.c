@@ -10,7 +10,7 @@ static char get_rand_char(struct mode m, FILE *random)
 
 	for (;;)
 	{
-		c = getc(random) % 93 + 32;
+		c = getc(random) % ('~' - ' ') + ' ';
 
 		if (!m.upper && inrange(c, 'A', 'Z'))
 			continue;
