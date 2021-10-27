@@ -25,7 +25,8 @@ void help(int exit_status)
 		"  --alpha                   generate only alphabetical characters\n"
 		"  --alpha-num               the same as --no-symbols\n"
 		"  --dont-allow <string>     don't allow generation to use characters in this string\n"
-		"  --base64                  generate a base64 string\n"
+		"  -X, --base64              generate a base64 string\n"
+		"  -x, --base16              generate a base16 string\n"
 		"  -s, --spaces              allows generation to use spaces\n\n",
 		program_name
 	);
