@@ -3,7 +3,7 @@
 PROGRAMNAME="passor"
 
 CBUILDOPTS=(
-    "-Wall" "-Werror"     # warnings
+    "-Wall" "-Werror" "-Wno-unused-function" # warnings
     "-O3" "-march=native" # optimization
 )
 
