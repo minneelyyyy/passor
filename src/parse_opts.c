@@ -7,28 +7,45 @@
 
 
 /* very funny magic numbers */
-#define NO_UPPER     8243583158179576629U
-#define NO_LOWER     8243583158168875026U
-#define NO_NUMBERS  12144439425868588933U
-#define NO_SYMBOLS  12144439432482481042U
-#define NUMBER          7569865168420680U
-#define ALPHA            229389837851557U
-#define ALPHA_NUM   13783808862824347298U
-#define BASE64	        7569864675294820U
-#define DONT_ALLOW  12143978086140558272U
-#define SPACES          7569865357737886U
+#define NO_UPPER      0x72671734BBAFBB35U
+#define NO_LOWER      0x72671734BB0C7012U
+#define NO_NUMBERS    0xA889B75057256785U
+#define NO_SYMBOLS    0xA889B751E15D6392U
+#define NUMBER          0x1AE4C0945C7F48U
+#define ALPHA             0xD0A0FBCCDBA5U
+#define ALPHA_NUM     0xBF49ED218886B6A2U
+#define BASE64	        0x1AE4C076F7FE64U
+#define BASE16          0x1AE4C076F7FDC1U
+#define DONT_ALLOW    0xA88813BA50893BC0U
+#define SPACES          0x1AE4C09FA53F9EU
 
 
-#define check_set(bool_set, string)                                               \
-	{                                                                         \
-		if (bool_set == true)                                             \
-		{                                                                 \
-			fprintf(stderr, "passor: error: %s set twice\n", string); \
-			exit(1);                                                  \
-		}                                                                 \
-		bool_set = true;                                                  \
+#define special_check_special()                                                                             \
+	{                                                                                                   \
+		if (m->special)                                                                             \
+		{                                                                                           \
+			fprintf(stderr, "passor: error: cannot set multiple special flags\n");              \
+			exit(1);                                                                            \
+		}                                                                                           \
 	}
 
+#define check_special(str)                                                                                  \
+	{                                                                                                   \
+		if (m->special)                                                                             \
+		{                                                                                           \
+			fprintf(stderr, "passor: error: cannot set %s when special flag is set\n", str);    \
+			exit(1);                                                                            \
+		}                                                                                           \
+	}
+
+#define check_bool_set_twice(b, default, str)                                  \
+	{                                                                      \
+		if (b != default)                                              \
+		{                                                              \
+			fprintf(stderr, "passor: error: %s set twice\n", str); \
+			exit(1);                                               \
+		}                                                              \
+	}
 
 /* check if a string is a zero, as in "0" or "000" */
 static bool is_zero(char *str)
@@ -56,19 +73,6 @@ static void str_chr_remove(char *str, char c)
 
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
-	struct set_opts {
-		bool no_upper   : 1;
-		bool no_lower   : 1;
-		bool no_numbers : 1;
-		bool no_symbols : 1;
-		bool number     : 1;
-		bool alpha      : 1;
-		bool alpha_num  : 1;
-		bool base64     : 1;
-		bool dont_allow : 1;
-		bool spaces     : 1;
-	} set = (struct set_opts) { 0 };
-
 	for (int i = 1; i < argc; i++)
 	{
 		if (argv[i][0] == '-' && argv[i][1] != '-')
@@ -78,37 +82,58 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 				switch (argv[i][j])
 				{
 					case 'U':
-						check_set(set.no_upper, "flag U");
+						check_special("flag U");
+						check_bool_set_twice(m->upper, true, "flag U");
 
 						m->upper = false;
 						break;
 
 					case 'L':
-						check_set(set.no_lower, "flag L");
+						check_special("flag L");
+						check_bool_set_twice(m->lower, true, "flag L");
 
 						m->lower = false;
 						break;
 
 					case 'N':
-						check_set(set.no_numbers, "flag N");
+						check_special("flag N");
+						check_bool_set_twice(m->numbers, true, "flag N");
 
 						m->numbers = false;
 						break;
 
 					case 'S':
-						check_set(set.no_symbols, "flag S");
+						check_special("flag S");
+						check_bool_set_twice(m->symbols, true, "flag S");
 
 						m->symbols = false;
 						break;
 
 					case 's':
-						check_set(set.spaces, "flag s");
+						check_special("flag s");
+						check_bool_set_twice(m->spaces, false, "flag s");
 
-						str_chr_remove(m->characters_not_allowed, ' ');
+						m->spaces = true;
+						break;
+					
+					case 'X':
+						check_bool_set_twice(m->base64, false, "flag X");
+						special_check_special();
+
+						m->basic = false;
+						m->base64 = true;
 						break;
 
+					case 'x':
+						check_bool_set_twice(m->base16, false, "flag x");
+						special_check_special();
+
+						m->basic = false;
+						m->base16 = true;
+						break;
+					
 					default:
-						fprintf(stderr, "passor: error: %c is not a valid argument\n", argv[i][j]);
+						fprintf(stderr, "passor: error: %c is not a valid flag\n", argv[i][j]);
 						exit(1);
 				}
 			}
@@ -118,66 +143,80 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			switch (hash(argv[i]))
 			{
 				case NO_UPPER:
-					check_set(set.no_upper, "--no-upper");
+					check_special("--no-upper");
+					check_bool_set_twice(m->upper, true, "--no-upper");
 
 					m->upper = false;
 					break;
 
 				case NO_LOWER:
-					check_set(set.no_lower, "--no-lower");
+					check_special("--no-lower");
+					check_bool_set_twice(m->upper, true, "--no-lower");
 
-					m->lower = false;
+					m->upper = false;
 					break;
 
 				case NO_NUMBERS:
-					check_set(set.no_numbers, "--no-numbers");
+					check_special("--no-numbers");
+					check_bool_set_twice(m->upper, true, "--no-numbers");
 
-					m->numbers = false;
+					m->upper = false;
 					break;
 
 				case NO_SYMBOLS:
-					check_set(set.no_symbols, "--no-symbols");
+					check_special("--no-symbols");
+					check_bool_set_twice(m->upper, true, "--no-symbols");
 
-					m->symbols = false;
+					m->upper = false;
 					break;
 
 				case NUMBER:
-					check_set(set.number, "--number");
+					check_special("--number");
 
-					m->symbols = false;
 					m->upper = false;
 					m->lower = false;
+					m->symbols = false;
 					break;
 
 				case ALPHA:
-					check_set(set.alpha, "--alpha");
+					check_special("--alpha");
 
 					m->symbols = false;
 					m->numbers = false;
 					break;
 
 				case ALPHA_NUM:
-					check_set(set.alpha_num, "--alpha-num");
+					check_special("--alpha-num");
 
 					m->symbols = false;
 					break;
 
 				case BASE64:
-					check_set(set.base64, "--base64");
+					check_bool_set_twice(m->base64, false, "--base64");
+					special_check_special();
 
-					// characters not part of base64
-					strcat(m->characters_not_allowed, "`~!@#$%^&*()-=_[]{}\\|;:'\",<.>?");
+					m->basic = false;
+					m->base64 = true;
+					break;
+				
+				case BASE16:
+					check_bool_set_twice(m->base16, false, "--base64");
+					special_check_special();
+
+					m->basic = false;
+					m->base16 = true;
 					break;
 
 				case DONT_ALLOW:
-					check_set(set.dont_allow, "--dont-allow");
+					check_special("--dont-allow")
 
 					i++;
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
 
 				case SPACES:
-					check_set(set.spaces, "--spaces");
+					check_special("--spaces");
+					check_bool_set_twice(m->spaces, false, "--spaces");
 
 					// remove space
 					str_chr_remove(m->characters_not_allowed, ' ');
@@ -201,21 +240,4 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			}
 		}
 	}
-
-	#ifdef DEBUG
-		printf(
-			"===============\n"
-			".no_upper   = %d\n"
-			".no_lower   = %d\n"
-			".no_numbers = %d\n"
-			".no_symbols = %d\n"
-			".number     = %d\n"
-			".alpha      = %d\n"
-			".alpha_num  = %d\n"
-			".base64     = %d\n"
-			".dont_allow = %d\n"
-			".spaces     = %d\n",
-			set.no_upper, set.no_lower, set.no_numbers, set.no_symbols, set.number, set.alpha, set.alpha_num, set.base64, set.dont_allow, set.spaces
-		);
-	#endif
 }
