@@ -30,7 +30,7 @@
 	}
 
 
-/* check if a string is an actual zero, as in "0" or "000" */
+/* check if a string is a zero, as in "0" or "000" */
 static bool is_zero(char *str)
 {
 	const int len = strlen(str);
@@ -44,19 +44,17 @@ static bool is_zero(char *str)
 	return true;
 }
 
-
 static void str_chr_remove(char *str, char c)
 {
 	while (*str != c && *str != '\0')
 		str++;
-	
+
 	while (*str != '\0')
 	{
 		*str = *(str + 1);
 		str++;
 	}
 }
-
 
 struct options_set {
 	bool no_upper: 1;
@@ -71,20 +69,19 @@ struct options_set {
 	bool spaces: 1;
 };
 
-
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
 	struct options_set set = {
-		.no_upper = false,
-		.no_lower = false,
+		.no_upper   = false,
+		.no_lower   = false,
 		.no_numbers = false,
 		.no_symbols = false,
-		.number = false,
-		.alpha = false,
-		.alpha_num = false,
-		.base64 = false,
+		.number     = false,
+		.alpha      = false,
+		.alpha_num  = false,
+		.base64     = false,
 		.dont_allow = false,
-		.spaces = false,
+		.spaces     = false,
 	};
 
 	for (int i = 1; i < argc; i++)
