@@ -47,10 +47,10 @@
 		}                                                              \
 	}
 
-#define common_flag_check(b, default, str) \
-	{\
-		check_special(str);\
-		check_bool_set_twice(b, default, str);\
+#define common_flag_check(b, default, str)             \
+	{                                              \
+		check_special(str);                    \
+		check_bool_set_twice(b, default, str); \
 	}
 
 /* check if a string is a zero, as in "0" or "000" */
