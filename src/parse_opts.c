@@ -19,14 +19,14 @@
 #define SPACES          7569865357737886U
 
 
-#define check_set(bool_set, string)                                   \
-	{                                                                 \
-		if (bool_set == true)                                         \
-		{                                                             \
+#define check_set(bool_set, string)                                               \
+	{                                                                         \
+		if (bool_set == true)                                             \
+		{                                                                 \
 			fprintf(stderr, "passor: error: %s set twice\n", string); \
 			exit(1);                                                  \
-		}                                                             \
-		bool_set = true;                                              \
+		}                                                                 \
+		bool_set = true;                                                  \
 	}
 
 
