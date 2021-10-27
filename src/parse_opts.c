@@ -75,7 +75,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 	{
 		if (argv[i][0] == '-' && argv[i][1] != '-')
 		{
-			for (int j = 0; j < strlen(argv[i]); j++)
+			for (int j = 1; j < strlen(argv[i]); j++)
 			{
 				switch (argv[i][j])
 				{
@@ -107,9 +107,6 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 						check_set(set.spaces, "flag s");
 
 						str_chr_remove(m->characters_not_allowed, ' ');
-						break;
-
-					case '-':
 						break;
 
 					default:
