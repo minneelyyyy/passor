@@ -149,6 +149,10 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					m->upper = false;
 					break;
 
+				case SPACES: common_flag_check(m->spaces, false, "--spaces")
+					m->spaces = true;
+					break;
+
 				case NUMBER:
 					check_special("--number");
 
@@ -170,6 +174,13 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					m->symbols = false;
 					break;
 
+				case DONT_ALLOW:
+					check_special("--dont-allow")
+
+					i++;
+					strcat(m->characters_not_allowed, argv[i]);
+					break;
+
 				case BASE64:
 					check_bool_set_twice(m->base64, false, "--base64");
 					special_check_special();
@@ -184,17 +195,6 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 					m->basic = false;
 					m->base16 = true;
-					break;
-
-				case DONT_ALLOW:
-					check_special("--dont-allow")
-
-					i++;
-					strcat(m->characters_not_allowed, argv[i]);
-					break;
-
-				case SPACES: common_flag_check(m->spaces, false, "--spaces")
-					m->spaces = true;
 					break;
 
 				default:
