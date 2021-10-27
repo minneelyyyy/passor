@@ -19,11 +19,11 @@ CBUILDMODE=$1
 [[ "$CBUILDMODE" = "" ]] && CBUILDMODE="$PROGRAMNAME"
 
 function build {
-    gcc ${CBUILDOPTS[@]} -DSTACK_ONLY -o "$PROGRAMNAME" ${SOURCEFILES[@]}
+    gcc ${CBUILDOPTS[@]} -o "$PROGRAMNAME" ${SOURCEFILES[@]}
 }
 
 function use_heap {
-    gcc ${CBUILDOPTS[@]} -o "$PROGRAMNAME" ${SOURCEFILES[@]}
+    gcc ${CBUILDOPTS[@]} -DHEAP_BUFFER -o "$PROGRAMNAME" ${SOURCEFILES[@]}
 }
 
 function debug {

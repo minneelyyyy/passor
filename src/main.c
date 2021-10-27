@@ -78,11 +78,11 @@ int main(int argc, char *argv[])
 	if (options.length <= 0)
 		return 0;
 
-	#ifdef STACK_ONLY
+	#ifdef HEAP_BUFFER
+		char *output = calloc(options.length + 1, sizeof(char));
+	#else
 		char output[options.length + 1];
 		memset(output, 0x0, options.length + 1);
-	#else
-		char *output = calloc(options.length + 1, sizeof(char));
 	#endif
 	
 	fill_buff_rand(output, options, random);
