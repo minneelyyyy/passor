@@ -72,11 +72,12 @@ int main(int argc, char *argv[])
 			".lower                  = %d\n"
 			".numbers                = %d\n"
 			".symbols                = %d\n"
+			".spaces                 = %d\n"
 			".base64                 = %d\n"
 			".base16                 = %d\n"
 			".characters_not_allowed = \"%s\"\n"
 			".length                 = %d\n",
-			options.lower, options.upper, options.numbers, options.symbols, options.base64, options.base16, options.characters_not_allowed, options.length
+			options.lower, options.upper, options.numbers, options.symbols, options.spaces, options.base64, options.base16, options.characters_not_allowed, options.length
 		);
 	#endif
 
