@@ -36,7 +36,5 @@ static char get_rand_char(struct mode m, FILE *random)
 void fill_buff_rand(char *str, struct mode m, FILE *random)
 {
 	for (int i = 0; i < m.length; i++)
-	{
 		str[i] = get_rand_char(m, random);
-	}
 }
