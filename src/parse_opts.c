@@ -19,7 +19,7 @@
 #define SPACES          7569865357737886U
 
 
-#define CHECK_SET(bool_set, string)                                   \
+#define check_set(bool_set, string)                                   \
 	{                                                                 \
 		if (bool_set == true)                                         \
 		{                                                             \
@@ -93,31 +93,31 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 				switch (argv[i][j])
 				{
 					case 'U':
-						CHECK_SET(set.no_upper, "flag U");
+						check_set(set.no_upper, "flag U");
 
 						m->upper = false;
 						break;
 
 					case 'L':
-						CHECK_SET(set.no_lower, "flag L");
+						check_set(set.no_lower, "flag L");
 
 						m->lower = false;
 						break;
 
 					case 'N':
-						CHECK_SET(set.no_numbers, "flag N");
+						check_set(set.no_numbers, "flag N");
 
 						m->numbers = false;
 						break;
 
 					case 'S':
-						CHECK_SET(set.no_symbols, "flag S");
+						check_set(set.no_symbols, "flag S");
 
 						m->symbols = false;
 						break;
 
 					case 's':
-						CHECK_SET(set.spaces, "flag s");
+						check_set(set.spaces, "flag s");
 
 						str_chr_remove(m->characters_not_allowed, ' ');
 						break;
@@ -136,31 +136,31 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			switch (hash(argv[i]))
 			{
 				case NO_UPPER:
-					CHECK_SET(set.no_upper, "--no-upper");
+					check_set(set.no_upper, "--no-upper");
 
 					m->upper = false;
 					break;
 
 				case NO_LOWER:
-					CHECK_SET(set.no_lower, "--no-lower");
+					check_set(set.no_lower, "--no-lower");
 
 					m->lower = false;
 					break;
 
 				case NO_NUMBERS:
-					CHECK_SET(set.no_numbers, "--no-numbers");
+					check_set(set.no_numbers, "--no-numbers");
 
 					m->numbers = false;
 					break;
 
 				case NO_SYMBOLS:
-					CHECK_SET(set.no_symbols, "--no-symbols");
+					check_set(set.no_symbols, "--no-symbols");
 
 					m->symbols = false;
 					break;
 
 				case NUMBER:
-					CHECK_SET(set.number, "--number");
+					check_set(set.number, "--number");
 
 					m->symbols = false;
 					m->upper = false;
@@ -168,34 +168,34 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					break;
 
 				case ALPHA:
-					CHECK_SET(set.alpha, "--alpha");
+					check_set(set.alpha, "--alpha");
 
 					m->symbols = false;
 					m->numbers = false;
 					break;
 
 				case ALPHA_NUM:
-					CHECK_SET(set.alpha_num, "--alpha-num");
+					check_set(set.alpha_num, "--alpha-num");
 
 					m->symbols = false;
 					break;
 
 				case BASE64:
-					CHECK_SET(set.base64, "--base64");
+					check_set(set.base64, "--base64");
 
 					// characters not part of base64
 					strcat(m->characters_not_allowed, "`~!@#$%^&*()-=_[]{}\\|;:'\",<.>?");
 					break;
 
 				case DONT_ALLOW:
-					CHECK_SET(set.dont_allow, "--dont-allow");
+					check_set(set.dont_allow, "--dont-allow");
 
 					i++;
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
 
 				case SPACES:
-					CHECK_SET(set.spaces, "--spaces");
+					check_set(set.spaces, "--spaces");
 
 					// remove space
 					str_chr_remove(m->characters_not_allowed, ' ');
