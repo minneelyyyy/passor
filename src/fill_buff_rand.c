@@ -10,7 +10,7 @@ static char get_rand_char(struct mode m, FILE *random)
 
 	for (;;)
 	{
-		c = getc(random) % ('~' - ' ') + ' ';
+		c = getc(random) % ('~' - ' ' + 1) + ' ';
 
 		if (!m.upper && inrange(c, 'A', 'Z'))
 			continue;
@@ -21,7 +21,7 @@ static char get_rand_char(struct mode m, FILE *random)
 		if (!m.numbers && inrange(c, '0', '9'))
 			continue;
 
-		if (!m.symbols && !!strchr("`!@#$%^&*()-=_+[]{}\\|;:'\",<.>/?", c))
+		if (!m.symbols && !!strchr("`~!@#$%^&*()-=_+[]{}\\|;:'\",<.>/?", c))
 			continue;
 
 		if (!!strchr(m.characters_not_allowed, c))
