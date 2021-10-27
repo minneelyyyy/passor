@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 		.spaces  = false,
 		.base64  = false,
 		.base16  = false,
-		.characters_not_allowed = " ",
+		.characters_not_allowed = "",
 		.length  = 8
 	};
 
