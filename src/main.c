@@ -64,8 +64,9 @@ int main(int argc, char *argv[])
 
 	#ifdef DEBUG
 		printf(
-			".lower                  = %d\n"
+			"===========================\n"
 			".upper                  = %d\n"
+			".lower                  = %d\n"
 			".numbers                = %d\n"
 			".symbols                = %d\n"
 			".characters_not_allowed = \"%s\"\n"

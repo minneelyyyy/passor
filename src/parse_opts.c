@@ -56,33 +56,20 @@ static void str_chr_remove(char *str, char c)
 	}
 }
 
-struct options_set {
-	bool no_upper: 1;
-	bool no_lower: 1;
-	bool no_numbers: 1;
-	bool no_symbols: 1;
-	bool number: 1;
-	bool alpha: 1;
-	bool alpha_num: 1;
-	bool base64: 1;
-	bool dont_allow: 1;
-	bool spaces: 1;
-};
-
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
-	struct options_set set = {
-		.no_upper   = false,
-		.no_lower   = false,
-		.no_numbers = false,
-		.no_symbols = false,
-		.number     = false,
-		.alpha      = false,
-		.alpha_num  = false,
-		.base64     = false,
-		.dont_allow = false,
-		.spaces     = false,
-	};
+	struct set_opts {
+		bool no_upper   : 1;
+		bool no_lower   : 1;
+		bool no_numbers : 1;
+		bool no_symbols : 1;
+		bool number     : 1;
+		bool alpha      : 1;
+		bool alpha_num  : 1;
+		bool base64     : 1;
+		bool dont_allow : 1;
+		bool spaces     : 1;
+	} set = (struct set_opts) { 0 };
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -219,4 +206,21 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			}
 		}
 	}
+
+	#ifdef DEBUG
+		printf(
+			"===============\n"
+			".no_upper   = %d\n"
+			".no_lower   = %d\n"
+			".no_numbers = %d\n"
+			".no_symbols = %d\n"
+			".number     = %d\n"
+			".alpha      = %d\n"
+			".alpha_num  = %d\n"
+			".base64     = %d\n"
+			".dont_allow = %d\n"
+			".spaces     = %d\n",
+			set.no_upper, set.no_lower, set.no_numbers, set.no_symbols, set.number, set.alpha, set.alpha_num, set.base64, set.dont_allow, set.spaces
+		);
+	#endif
 }
