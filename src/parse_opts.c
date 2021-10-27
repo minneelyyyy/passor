@@ -47,6 +47,12 @@
 		}                                                              \
 	}
 
+#define common_flag_check(b, default, str) \
+	{\
+		check_special(str);\
+		check_bool_set_twice(b, default, str);\
+	}
+
 /* check if a string is a zero, as in "0" or "000" */
 static bool is_zero(char *str)
 {
@@ -81,41 +87,26 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 			{
 				switch (argv[i][j])
 				{
-					case 'U':
-						check_special("flag U");
-						check_bool_set_twice(m->upper, true, "flag U");
-
+					case 'U': common_flag_check(m->upper, true, "flag U")
 						m->upper = false;
 						break;
 
-					case 'L':
-						check_special("flag L");
-						check_bool_set_twice(m->lower, true, "flag L");
-
+					case 'L': common_flag_check(m->lower, true, "flag L")
 						m->lower = false;
 						break;
 
-					case 'N':
-						check_special("flag N");
-						check_bool_set_twice(m->numbers, true, "flag N");
-
+					case 'N': common_flag_check(m->numbers, true, "flag N")
 						m->numbers = false;
 						break;
 
-					case 'S':
-						check_special("flag S");
-						check_bool_set_twice(m->symbols, true, "flag S");
-
+					case 'S': common_flag_check(m->symbols, true, "flag S")
 						m->symbols = false;
 						break;
 
-					case 's':
-						check_special("flag s");
-						check_bool_set_twice(m->spaces, false, "flag s");
-
+					case 's': common_flag_check(m->spaces, false, "flag s")
 						m->spaces = true;
 						break;
-					
+
 					case 'X':
 						check_bool_set_twice(m->base64, false, "flag X");
 						special_check_special();
@@ -131,7 +122,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 						m->basic = false;
 						m->base16 = true;
 						break;
-					
+
 					default:
 						fprintf(stderr, "passor: error: %c is not a valid flag\n", argv[i][j]);
 						exit(1);
@@ -142,31 +133,19 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 		{
 			switch (hash(argv[i]))
 			{
-				case NO_UPPER:
-					check_special("--no-upper");
-					check_bool_set_twice(m->upper, true, "--no-upper");
-
+				case NO_UPPER: common_flag_check(m->upper, true, "--no-upper")
 					m->upper = false;
 					break;
 
-				case NO_LOWER:
-					check_special("--no-lower");
-					check_bool_set_twice(m->upper, true, "--no-lower");
-
+				case NO_LOWER: common_flag_check(m->upper, true, "--no-lower")
 					m->upper = false;
 					break;
 
-				case NO_NUMBERS:
-					check_special("--no-numbers");
-					check_bool_set_twice(m->upper, true, "--no-numbers");
-
+				case NO_NUMBERS: common_flag_check(m->upper, true, "--no-numbers")
 					m->upper = false;
 					break;
 
-				case NO_SYMBOLS:
-					check_special("--no-symbols");
-					check_bool_set_twice(m->upper, true, "--no-symbols");
-
+				case NO_SYMBOLS: common_flag_check(m->upper, true, "--no-symbols")
 					m->upper = false;
 					break;
 
@@ -214,12 +193,8 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
 
-				case SPACES:
-					check_special("--spaces");
-					check_bool_set_twice(m->spaces, false, "--spaces");
-
-					// remove space
-					str_chr_remove(m->characters_not_allowed, ' ');
+				case SPACES: common_flag_check(m->spaces, false, "--spaces")
+					m->spaces = true;
 					break;
 
 				default:
