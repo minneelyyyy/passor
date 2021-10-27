@@ -44,13 +44,19 @@ static bool is_zero(char *str)
 	return true;
 }
 
-static void str_chr_replace(char *str, char dest, char src)
+
+static void str_chr_remove(char *str, char c)
 {
-	while (*str != dest && *str != '\0')
+	while (*str != c && *str != '\0')
 		str++;
 	
-	*str = src;
+	while (*str != '\0')
+	{
+		*str = *(str + 1);
+		str++;
+	}
 }
+
 
 struct options_set {
 	bool no_upper: 1;
@@ -64,6 +70,7 @@ struct options_set {
 	bool dont_allow: 1;
 	bool spaces: 1;
 };
+
 
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
@@ -115,7 +122,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					case 's':
 						CHECK_SET(set.spaces, "flag s");
 
-						str_chr_replace(m->characters_not_allowed, ' ', 0x1);
+						str_chr_remove(m->characters_not_allowed, ' ');
 						break;
 
 					case '-':
@@ -180,7 +187,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					CHECK_SET(set.base64, "--base64");
 
 					// characters not part of base64
-					strcat(m->characters_not_allowed, "`~!@#$%^&*()_=-\\[]{}|;:'\",<.>? ");
+					strcat(m->characters_not_allowed, "`~!@#$%^&*()-=_[]{}\\|;:'\",<.>?");
 					break;
 
 				case DONT_ALLOW:
@@ -193,8 +200,8 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 				case SPACES:
 					CHECK_SET(set.spaces, "--spaces");
 
-					// replace all spaces with ascii 1 (an unused character by the program)
-					str_chr_replace(m->characters_not_allowed, ' ', 0x1);
+					// remove space
+					str_chr_remove(m->characters_not_allowed, ' ');
 					break;
 
 				default:
