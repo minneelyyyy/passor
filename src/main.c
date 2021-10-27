@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
 	if (!random)
 	{
-		fprintf(stderr, "Failed to open /dev/urandom. exiting.\n");
+		fprintf(stderr, "passor: error: failed to open /dev/urandom\n");
 		return 1;
 	}
 
