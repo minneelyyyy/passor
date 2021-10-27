@@ -21,13 +21,14 @@ void help(int exit_status)
 		"  -L, --no-lower            generate without lowercase characters\n"
 		"  -N, --no-numbers          generate without number characters\n"
 		"  -S, --no-symbols          generate without other characters\n"
+		"  -s, --spaces              allows generation to use spaces\n"
 		"  --number                  generate only a number\n"
 		"  --alpha                   generate only alphabetical characters\n"
 		"  --alpha-num               the same as --no-symbols\n"
 		"  --dont-allow <string>     don't allow generation to use characters in this string\n"
 		"  -X, --base64              generate a base64 string\n"
 		"  -x, --base16              generate a base16 string\n"
-		"  -s, --spaces              allows generation to use spaces\n\n",
+		"\n",
 		program_name
 	);
 
