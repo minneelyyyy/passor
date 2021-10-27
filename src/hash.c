@@ -1,5 +1,5 @@
 
-unsigned long hash(const char *str)
+inline const unsigned long hash(const char *str)
 {
 	unsigned long hash = 5381;
 	int c;
