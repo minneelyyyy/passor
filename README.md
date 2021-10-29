@@ -7,4 +7,4 @@
 
 optionally, build with `./build.sh use_heap` which builds the code to allow it to store its buffer on the heap instead of the stack
 
-![sample](/images/passor-sample.png)
+![sample](/images/passor-sample-image.png)
