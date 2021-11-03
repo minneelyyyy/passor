@@ -3,28 +3,19 @@
 
 #include <stdbool.h>
 
+enum special { NONE, BASE64, BASE16 };
+
 struct mode
 {
 	// flags for basic generation
-	union {
-		unsigned basic : 4;
-		struct {
-			bool lower   : 1;
-			bool upper   : 1;
-			bool numbers : 1;
-			bool symbols : 1;
-			bool spaces  : 1;
-		};
-	};
+	bool lower   : 1;
+	bool upper   : 1;
+	bool numbers : 1;
+	bool symbols : 1;
+	bool spaces  : 1;
 
 	// special generation modes
-	union {
-		unsigned special : 2;
-		struct {
-			bool base64 : 1;
-			bool base16 : 1;
-		};
-	};
+	enum special spec;
 
 	// other
 	bool debug : 1;

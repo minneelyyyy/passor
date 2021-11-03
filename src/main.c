@@ -49,8 +49,7 @@ int main(int argc, char *argv[])
 		.numbers = true,
 		.symbols = true,
 		.spaces  = false,
-		.base64  = false,
-		.base16  = false,
+		.spec    = NONE,
 		.debug   = false,
 		.characters_not_allowed = "",
 		.length  = 8

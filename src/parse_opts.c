@@ -16,14 +16,14 @@
 #define ALPHA      4224506789
 #define ALPHA_NUM  2290529954
 #define DONT_ALLOW 1351171008
-#define BASE64     1995964004
-#define BASE16     1995963841
+#define BASE64_M   1995964004
+#define BASE16_M   1995963841
 #define DEBUG_M    4227798182
 
 
 #define special_check_special()                                                                \
 	{                                                                                      \
-		if (m->special)                                                                \
+		if (m->spec)                                                                   \
 		{                                                                              \
 			fprintf(stderr, "passor: error: cannot set multiple special flags\n"); \
 			exit(1);                                                               \
@@ -32,7 +32,7 @@
 
 #define check_special(str)                                                                               \
 	{                                                                                                \
-		if (m->special)                                                                          \
+		if (m->spec)                                                                             \
 		{                                                                                        \
 			fprintf(stderr, "passor: error: cannot set %s when special flag is set\n", str); \
 			exit(1);                                                                         \
@@ -109,19 +109,17 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 						break;
 
 					case 'X':
-						check_bool_set_twice(m->base64, false, "flag X");
+						check_bool_set_twice(m->spec, NONE, "flag X");
 						special_check_special();
 
-						m->basic = false;
-						m->base64 = true;
+						m->spec = BASE64;
 						break;
 
 					case 'x':
-						check_bool_set_twice(m->base16, false, "flag x");
+						check_bool_set_twice(m->spec, NONE, "flag x");
 						special_check_special();
 
-						m->basic = false;
-						m->base16 = true;
+						m->spec = BASE16;
 						break;
 
 					default:
@@ -182,20 +180,18 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					strcat(m->characters_not_allowed, argv[i]);
 					break;
 
-				case BASE64:
-					check_bool_set_twice(m->base64, false, "--base64");
+				case BASE64_M:
+					check_bool_set_twice(m->spec, NONE, "--base64");
 					special_check_special();
 
-					m->basic = false;
-					m->base64 = true;
+					m->spec = BASE64;
 					break;
 				
-				case BASE16:
-					check_bool_set_twice(m->base16, false, "--base64");
+				case BASE16_M:
+					check_bool_set_twice(m->spec, NONE, "--base64");
 					special_check_special();
 
-					m->basic = false;
-					m->base16 = true;
+					m->spec = BASE16;
 					break;
 				
 				case DEBUG_M: check_bool_set_twice(m->debug, false, "--debug")
