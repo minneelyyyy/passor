@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-enum special { NONE, BASE64, BASE16 };
+enum special_modes { NONE, BASE64, BASE16 };
 
 struct mode
 {
@@ -15,7 +15,7 @@ struct mode
 	bool spaces  : 1;
 
 	// special generation modes
-	enum special spec;
+	enum special_modes special;
 
 	// other
 	bool debug : 1;

@@ -16,7 +16,7 @@ static char get_rand_char(struct mode m)
 	static const char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+";
 	static const char *base16_chars = "0123456789ABCDEF";
 
-	switch (m.spec)
+	switch (m.special)
 	{
 		case BASE64:
 			return base64_chars[rand() % strlen(base64_chars)];

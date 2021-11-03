@@ -23,7 +23,7 @@
 
 #define special_check_special()                                                                \
 	{                                                                                      \
-		if (m->spec)                                                                   \
+		if (m->special)                                                                \
 		{                                                                              \
 			fprintf(stderr, "passor: error: cannot set multiple special flags\n"); \
 			exit(1);                                                               \
@@ -32,7 +32,7 @@
 
 #define check_special(str)                                                                               \
 	{                                                                                                \
-		if (m->spec)                                                                             \
+		if (m->special)                                                                          \
 		{                                                                                        \
 			fprintf(stderr, "passor: error: cannot set %s when special flag is set\n", str); \
 			exit(1);                                                                         \
@@ -109,17 +109,17 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 						break;
 
 					case 'X':
-						check_bool_set_twice(m->spec, NONE, "flag X");
+						check_bool_set_twice(m->special, NONE, "flag X");
 						special_check_special();
 
-						m->spec = BASE64;
+						m->special = BASE64;
 						break;
 
 					case 'x':
-						check_bool_set_twice(m->spec, NONE, "flag x");
+						check_bool_set_twice(m->special, NONE, "flag x");
 						special_check_special();
 
-						m->spec = BASE16;
+						m->special = BASE16;
 						break;
 
 					default:
@@ -181,17 +181,17 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					break;
 
 				case BASE64_M:
-					check_bool_set_twice(m->spec, NONE, "--base64");
+					check_bool_set_twice(m->special, NONE, "--base64");
 					special_check_special();
 
-					m->spec = BASE64;
+					m->special = BASE64;
 					break;
 				
 				case BASE16_M:
-					check_bool_set_twice(m->spec, NONE, "--base64");
+					check_bool_set_twice(m->special, NONE, "--base64");
 					special_check_special();
 
-					m->spec = BASE16;
+					m->special = BASE16;
 					break;
 				
 				case DEBUG_M: check_bool_set_twice(m->debug, false, "--debug")
