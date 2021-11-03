@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 		.spaces  = false,
 		.base64  = false,
 		.base16  = false,
+		.debug   = false,
 		.characters_not_allowed = "",
 		.length  = 8
 	};
@@ -59,19 +60,23 @@ int main(int argc, char *argv[])
 	parse_opts(&options, argc, argv);
 
 	#ifdef DEBUG
-		printf(
-			"===========================\n"
-			".upper                  = %d\n"
-			".lower                  = %d\n"
-			".numbers                = %d\n"
-			".symbols                = %d\n"
-			".spaces                 = %d\n"
-			".base64                 = %d\n"
-			".base16                 = %d\n"
-			".characters_not_allowed = \"%s\"\n"
-			".length                 = %d\n",
-			options.lower, options.upper, options.numbers, options.symbols, options.spaces, options.base64, options.base16, options.characters_not_allowed, options.length
-		);
+		if (options.debug)
+		{
+			printf(
+				"===========================\n"
+				".upper                  = %d\n"
+				".lower                  = %d\n"
+				".numbers                = %d\n"
+				".symbols                = %d\n"
+				".spaces                 = %d\n"
+				".base64                 = %d\n"
+				".base16                 = %d\n"
+				".debug                  = %d\n"
+				".characters_not_allowed = \"%s\"\n"
+				".length                 = %d\n",
+				options.lower, options.upper, options.numbers, options.symbols, options.spaces, options.base64, options.base16, options.debug, options.characters_not_allowed, options.length
+			);
+		}
 	#endif
 
 	if (options.length <= 0)

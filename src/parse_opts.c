@@ -18,6 +18,7 @@
 #define DONT_ALLOW 1351171008
 #define BASE64     1995964004
 #define BASE16     1995963841
+#define DEBUG_M    4227798182
 
 
 #define special_check_special()                                                                \
@@ -154,7 +155,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					break;
 
 				case NUMBER:
-					check_special("--number");
+					check_special("--number")
 
 					m->upper = false;
 					m->lower = false;
@@ -162,14 +163,14 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					break;
 
 				case ALPHA:
-					check_special("--alpha");
+					check_special("--alpha")
 
 					m->symbols = false;
 					m->numbers = false;
 					break;
 
 				case ALPHA_NUM:
-					check_special("--alpha-num");
+					check_special("--alpha-num")
 
 					m->symbols = false;
 					break;
@@ -195,6 +196,10 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 
 					m->basic = false;
 					m->base16 = true;
+					break;
+				
+				case DEBUG_M: check_bool_set_twice(m->debug, false, "--debug")
+					m->debug = true;
 					break;
 
 				default:

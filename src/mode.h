@@ -27,6 +27,7 @@ struct mode
 	};
 
 	// other
+	bool debug : 1;
 	char characters_not_allowed[64];
 	int length;
 };
