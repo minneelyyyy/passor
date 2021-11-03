@@ -65,15 +65,15 @@ void fill_buff_rand(char *str, struct mode m)
 {
 	// seed random number generator
 	#ifdef _WIN32
-	SYSTEMTIME st;
-	GetSystemTime(&st);
+		SYSTEMTIME st;
+		GetSystemTime(&st);
 
-	srand(st.wMilliseconds);
+		srand(st.wMilliseconds);
 	#else
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
+		struct timeval tv;
+		gettimeofday(&tv, NULL);
 
-	srand(tv.tv_usec);
+		srand(tv.tv_usec);
 	#endif
 
 	for (int i = 0; i < m.length; i++)
