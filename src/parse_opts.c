@@ -20,22 +20,22 @@
 #define BASE16     1995963841
 
 
-#define special_check_special()                                                                             \
-	{                                                                                                   \
-		if (m->special)                                                                             \
-		{                                                                                           \
-			fprintf(stderr, "passor: error: cannot set multiple special flags\n");              \
-			exit(1);                                                                            \
-		}                                                                                           \
+#define special_check_special()                                                                \
+	{                                                                                      \
+		if (m->special)                                                                \
+		{                                                                              \
+			fprintf(stderr, "passor: error: cannot set multiple special flags\n"); \
+			exit(1);                                                               \
+		}                                                                              \
 	}
 
-#define check_special(str)                                                                                  \
-	{                                                                                                   \
-		if (m->special)                                                                             \
-		{                                                                                           \
-			fprintf(stderr, "passor: error: cannot set %s when special flag is set\n", str);    \
-			exit(1);                                                                            \
-		}                                                                                           \
+#define check_special(str)                                                                               \
+	{                                                                                                \
+		if (m->special)                                                                          \
+		{                                                                                        \
+			fprintf(stderr, "passor: error: cannot set %s when special flag is set\n", str); \
+			exit(1);                                                                         \
+		}                                                                                        \
 	}
 
 #define check_bool_set_twice(b, default, str)                                  \
