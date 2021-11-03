@@ -15,8 +15,8 @@ void help(int exit_status)
 	fprintf(
 		exit_status ? stderr : stdout,
 		"Usage: %s [OPTION]... [LENGTH]\n"
-		"generate a password / random string\n\n"
-
+		"generate a password / random string\n"
+		"\n"
 		"  -U, --no-upper            generate without uppercase characters\n"
 		"  -L, --no-lower            generate without lowercase characters\n"
 		"  -N, --no-numbers          generate without number characters\n"
