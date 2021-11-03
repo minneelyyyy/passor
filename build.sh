@@ -26,6 +26,14 @@ function use_heap {
     gcc ${CBUILDOPTS[@]} -DHEAP_BUFFER -o "$PROGRAMNAME" ${SOURCEFILES[@]}
 }
 
+function windows {
+   x86_64-w64-mingw32-gcc ${CBUILDOPTS[@]} -o "$PROGRAMNAME.exe" ${SOURCEFILES[@]}
+}
+
+function windows_heap {
+   x86_64-w64-mingw32-gcc ${CBUILDOPTS[@]} -DHEAP_BUFFER -o "$PROGRAMNAME.exe" ${SOURCEFILES[@]}
+}
+
 function debug {
     gcc ${CBUILDOPTS[@]} -DDEBUG -o "$PROGRAMNAME" ${SOURCEFILES[@]}
 }

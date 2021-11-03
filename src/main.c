@@ -37,15 +37,6 @@ void help(int exit_status)
 
 int main(int argc, char *argv[])
 {
-	/* file handle for the random byte generator */
-	FILE *random = fopen("/dev/urandom", "r");
-
-	if (!random)
-	{
-		fprintf(stderr, "passor: error: failed to open /dev/urandom\n");
-		return 1;
-	}
-
 	program_name = argv[0];
 
 	if (argc > 1 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")))
@@ -93,7 +84,7 @@ int main(int argc, char *argv[])
 		memset(output, 0x0, options.length + 1);
 	#endif
 	
-	fill_buff_rand(output, options, random);
+	fill_buff_rand(output, options);
 
 	puts(output);
 }

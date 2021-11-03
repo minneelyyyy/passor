@@ -7,17 +7,17 @@
 
 
 /* very funny magic numbers */
-#define NO_UPPER      0x72671734BBAFBB35U
-#define NO_LOWER      0x72671734BB0C7012U
-#define NO_NUMBERS    0xA889B75057256785U
-#define NO_SYMBOLS    0xA889B751E15D6392U
-#define NUMBER          0x1AE4C0945C7F48U
-#define ALPHA             0xD0A0FBCCDBA5U
-#define ALPHA_NUM     0xBF49ED218886B6A2U
-#define BASE64	        0x1AE4C076F7FE64U
-#define BASE16          0x1AE4C076F7FDC1U
-#define DONT_ALLOW    0xA88813BA50893BC0U
-#define SPACES          0x1AE4C09FA53F9EU
+#define NO_UPPER   3148856117
+#define NO_LOWER   3138154514
+#define NO_NUMBERS 1462069125
+#define NO_SYMBOLS 3780993938
+#define SPACES     2678407070
+#define NUMBER     2489089864
+#define ALPHA      4224506789
+#define ALPHA_NUM  2290529954
+#define DONT_ALLOW 1351171008
+#define BASE64     1995964004
+#define BASE16     1995963841
 
 
 #define special_check_special()                                                                             \

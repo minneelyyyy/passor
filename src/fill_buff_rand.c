@@ -1,13 +1,20 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "mode.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
 
 #define BASE64 0b01
 #define BASE16 0b10
 
 #define inrange(c, a, z) a <= c && c <= z
 
-static char get_rand_char(struct mode m, FILE *random)
+static char get_rand_char(struct mode m)
 {
 	static const char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+";
 	static const char *base16_chars = "0123456789ABCDEF";
@@ -17,17 +24,17 @@ static char get_rand_char(struct mode m, FILE *random)
 		switch (m.special)
 		{
 			case BASE64:
-				return base64_chars[getc(random) % strlen(base64_chars)];
+				return base64_chars[rand() % strlen(base64_chars)];
 
 			case BASE16:
-				return base16_chars[getc(random) % strlen(base16_chars)];
+				return base16_chars[rand() % strlen(base16_chars)];
 		}
 	}
 	else
 	{
 		for (;;)
 		{
-			char c = getc(random) % ('~' - ' ' + 1) + ' ';
+			char c = rand() % ('~' - ' ' + 1) + ' ';
 
 			if (!m.upper && inrange(c, 'A', 'Z'))
 				continue;
@@ -54,8 +61,21 @@ static char get_rand_char(struct mode m, FILE *random)
 	return 0;
 }
 
-void fill_buff_rand(char *str, struct mode m, FILE *random)
+void fill_buff_rand(char *str, struct mode m)
 {
+	// seed random number generator
+	#ifdef _WIN32
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+
+	srand(st.wMilliseconds);
+	#else
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+
+	srand(tv.tv_usec / 1000);
+	#endif
+
 	for (int i = 0; i < m.length; i++)
-		str[i] = get_rand_char(m, random);
+		str[i] = get_rand_char(m);
 }
