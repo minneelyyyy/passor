@@ -73,7 +73,7 @@ void fill_buff_rand(char *str, struct mode m)
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 
-	srand(tv.tv_usec / 1000);
+	srand(tv.tv_usec);
 	#endif
 
 	for (int i = 0; i < m.length; i++)
