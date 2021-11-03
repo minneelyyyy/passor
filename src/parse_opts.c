@@ -38,19 +38,19 @@
 		}                                                                                        \
 	}
 
-#define check_bool_set_twice(b, default, str)                                  \
+#define check_bool_set_twice(b, def, str)                                      \
 	{                                                                      \
-		if (b != default)                                              \
+		if (b != def)                                                  \
 		{                                                              \
 			fprintf(stderr, "passor: error: %s set twice\n", str); \
 			exit(1);                                               \
 		}                                                              \
 	}
 
-#define common_flag_check(b, default, str)             \
-	{                                              \
-		check_special(str);                    \
-		check_bool_set_twice(b, default, str); \
+#define common_flag_check(b, def, str)             \
+	{                                          \
+		check_special(str);                \
+		check_bool_set_twice(b, def, str); \
 	}
 
 /* check if a string is a zero, as in "0" or "000" */
