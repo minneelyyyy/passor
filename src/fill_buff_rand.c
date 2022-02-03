@@ -11,48 +11,69 @@
 
 #define inrange(c, a, z) a <= c && c <= z
 
-static char get_rand_char(struct mode m)
+static const char *all_chars = "!\"#$&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+static const char *uppercase_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static const char *lowercase_chars = "abcdefghijklmnopqrstuvwxyz";
+static const char *symbol_chars = "!\"#$&'()*+,-./:;<=>?@[\\]^_`{|}~";
+static const char *number_chars = "0123456789";
+
+static void str_chr_remove(char *str, char c)
 {
+	while (*str != c && *str != '\0')
+		str++;
+
+	while (*str != '\0')
+	{
+		*str = *(str + 1);
+		str++;
+	}
+}
+
+static void remove_chars(char *str, const char *chars)
+{
+	for (int i = 0; i < strlen(chars); i++)
+	{
+		str_chr_remove(str, chars[i]);
+	}
+}
+
+static void get_usable_chars(char *str, struct mode m)
+{
+	strcpy(str, all_chars);
+
 	static const char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+";
 	static const char *base16_chars = "0123456789ABCDEF";
 
 	switch (m.special)
 	{
-		case BASE64:
-			return base64_chars[rand() % strlen(base64_chars)];
-
-		case BASE16:
-			return base16_chars[rand() % strlen(base16_chars)];
-		
 		case NONE:
-			for (;;)
-			{
-				char c = rand() % ('~' - ' ' + 1) + ' ';
-
-				if (!m.upper && inrange(c, 'A', 'Z'))
-					continue;
-
-				if (!m.lower && inrange(c, 'a', 'z'))
-					continue;
-
-				if (!m.numbers && inrange(c, '0', '9'))
-					continue;
-
-				if (!m.symbols && !!strchr("`~!@#$%^&*()-=_+[]{}\\|;:'\",<.>/?", c))
-					continue;
-
-				if (!m.spaces && c == ' ')
-					continue;
-
-				if (!!strchr(m.characters_not_allowed, c))
-					continue;
-
-				return c;
-			}
+			if (!m.upper)
+				remove_chars(str, uppercase_chars);
+			if (!m.lower)
+				remove_chars(str, lowercase_chars);
+			if (!m.symbols)
+				remove_chars(str, symbol_chars);
+			if (!m.numbers)
+				remove_chars(str, number_chars);
+			if (m.spaces)
+				strcat(str, " ");
+			break;
 		
-		default:
-			return 0;
+		case BASE64:
+			strcpy(str, base64_chars);
+			break;
+		
+		case BASE16:
+			strcpy(str, base16_chars);
+			break;
 	}
+	
+	remove_chars(str, m.characters_not_allowed);
+}
+
+static char get_rand_char(char *str)
+{
+	return str[rand() % strlen(str)];
 }
 
 void fill_buff_rand(char *str, struct mode m)
@@ -70,8 +91,27 @@ void fill_buff_rand(char *str, struct mode m)
 		srand(tv.tv_usec);
 	#endif
 
-	str[m.length] = '\0';
+	char usable_chars[256] = "";
+	get_usable_chars(usable_chars, m);
+
+	#ifdef DEBUG
+		if (m.debug)
+		{
+			static bool already_run = false;
+
+			if (!already_run)
+				fprintf(stderr, "\"%s\"\n", usable_chars);
+
+			already_run = true;
+		}
+	#endif
+
+	if (!strcmp(usable_chars, ""))
+	{
+		fprintf(stderr, "passor: error: no printable characters\n");
+		exit(12);
+	}
 
 	for (int i = 0; i < m.length; i++)
-		str[i] = get_rand_char(m);
+		str[i] = get_rand_char(usable_chars);
 }
