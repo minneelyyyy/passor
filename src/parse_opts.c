@@ -95,14 +95,12 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 						break;
 
 					case 'X':
-						check_bool_set_twice(m->special, NONE, "flag X");
 						special_check_special();
 
 						m->special = BASE64;
 						break;
 
 					case 'x':
-						check_bool_set_twice(m->special, NONE, "flag x");
 						special_check_special();
 
 						m->special = BASE16;
@@ -167,22 +165,22 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					break;
 
 				case BASE64_M:
-					check_bool_set_twice(m->special, NONE, "--base64");
 					special_check_special();
 
 					m->special = BASE64;
 					break;
 				
 				case BASE16_M:
-					check_bool_set_twice(m->special, NONE, "--base64");
 					special_check_special();
 
 					m->special = BASE16;
 					break;
 				
-				case DEBUG_M: check_bool_set_twice(m->debug, false, "--debug")
-					m->debug = true;
-					break;
+				#ifdef DEBUG
+					case DEBUG_M: check_bool_set_twice(m->debug, false, "--debug")
+						m->debug = true;
+						break;
+				#endif
 
 				default:
 				{
