@@ -64,18 +64,6 @@ static bool is_zero(char *str)
 	return true;
 }
 
-static void str_chr_remove(char *str, char c)
-{
-	while (*str != c && *str != '\0')
-		str++;
-
-	while (*str != '\0')
-	{
-		*str = *(str + 1);
-		str++;
-	}
-}
-
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
 	for (int i = 1; i < argc; i++)
@@ -135,15 +123,15 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					break;
 
 				case NO_LOWER: common_flag_check(m->upper, true, "--no-lower")
-					m->upper = false;
+					m->lower = false;
 					break;
 
 				case NO_NUMBERS: common_flag_check(m->upper, true, "--no-numbers")
-					m->upper = false;
+					m->numbers = false;
 					break;
 
 				case NO_SYMBOLS: common_flag_check(m->upper, true, "--no-symbols")
-					m->upper = false;
+					m->symbols = false;
 					break;
 
 				case SPACES: common_flag_check(m->spaces, false, "--spaces")
@@ -175,7 +163,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					check_special("--dont-allow")
 
 					i++;
-					strcat(m->characters_not_allowed, argv[i]);
+					strncat(m->characters_not_allowed, argv[i], SIZEOF_NA_CHARS - 1);
 					break;
 
 				case BASE64_M:
