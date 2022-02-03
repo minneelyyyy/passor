@@ -23,7 +23,7 @@ if [[ ! "$CBUILDMODE" = *"debug"* ]]
 then
     CBUILDOPTS+=( "-O3" "-march=native" )
 else
-    CBUILDOPTS+=( "-O0" )
+    CBUILDOPTS+=( "-O0" "-g" )
 fi
 
 # build modes
@@ -55,11 +55,11 @@ function windows_heap {
 }
 
 function windows_debug {
-    x86_64-w64-mingw32-gcc ${CBUILDOPTS[@]} -DDEBUG -o "$PROGRAMNAME" ${SOURCEFILES[@]}
+    x86_64-w64-mingw32-gcc ${CBUILDOPTS[@]} -DDEBUG -o "$PROGRAMNAME.exe" ${SOURCEFILES[@]}
 }
 
 function windows_heap_debug {
-    x86_64-w64-mingw32-gcc ${CBUILDOPTS[@]} -DHEAP_BUFFER -DDEBUG -o "$PROGRAMNAME" ${SOURCEFILES[@]}
+    x86_64-w64-mingw32-gcc ${CBUILDOPTS[@]} -DHEAP_BUFFER -DDEBUG -o "$PROGRAMNAME.exe" ${SOURCEFILES[@]}
 }
 
 # other
@@ -68,7 +68,7 @@ function install {
 }
 
 function clean {
-    rm "$PROGRAMNAME"
+    rm "$PROGRAMNAME" "$PROGRAMNAME.exe"
 }
 
 if [[ "$CBUILDMODE" = "$PROGRAMNAME" ]]
