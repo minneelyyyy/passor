@@ -82,10 +82,9 @@ int main(int argc, char *argv[])
 		return 0;
 
 	#ifdef HEAP_BUFFER
-		char *output = calloc(options.length + 1, sizeof(char));
+		char *output = malloc(options.length + 1);
 	#else
 		char output[options.length + 1];
-		memset(output, 0x0, options.length + 1);
 	#endif
 	
 	fill_buff_rand(output, options);

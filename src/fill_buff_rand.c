@@ -70,6 +70,8 @@ void fill_buff_rand(char *str, struct mode m)
 		srand(tv.tv_usec);
 	#endif
 
+	str[m.length] = '\0';
+
 	for (int i = 0; i < m.length; i++)
 		str[i] = get_rand_char(m);
 }
