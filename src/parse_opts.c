@@ -163,7 +163,7 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 					check_special("--dont-allow")
 
 					i++;
-					strncat(m->characters_not_allowed, argv[i], SIZEOF_NA_CHARS - 1);
+					strncat(m->characters_not_allowed, argv[i], SIZEOF_NA_CHARS - 1 - strlen(m->characters_not_allowed));
 					break;
 
 				case BASE64_M:
