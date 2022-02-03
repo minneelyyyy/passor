@@ -67,13 +67,17 @@ function install {
     mv "./$PROGRAMNAME" "/usr/bin/$PROGRAMNAME"
 }
 
+function uninstall {
+    rm -f "/usr/bin/$PROGRAMNAME"
+}
+
 function clean {
     rm -f "$PROGRAMNAME" "$PROGRAMNAME.exe"
 }
 
 if [[ "$CBUILDMODE" = "$PROGRAMNAME" ]]
 then
-	build
+    build
 else
-	$CBUILDMODE
+    $CBUILDMODE
 fi
