@@ -3,7 +3,7 @@
 PROGRAMNAME="passor"
 
 CBUILDOPTS=(
-    "-Wall" "-Werror" "-Wno-unused-function" # warnings
+    "-Wall" "-Werror" # warnings
     # "-O3" "-march=native" # optimization
 )
 
@@ -68,7 +68,7 @@ function install {
 }
 
 function clean {
-    rm "$PROGRAMNAME" "$PROGRAMNAME.exe"
+    rm -f "$PROGRAMNAME" "$PROGRAMNAME.exe"
 }
 
 if [[ "$CBUILDMODE" = "$PROGRAMNAME" ]]
