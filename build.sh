@@ -77,7 +77,7 @@ function clean {
 
 if [[ "$CBUILDMODE" = "$PROGRAMNAME" ]]
 then
-	build
+    build
 else
-	$CBUILDMODE
+    $CBUILDMODE
 fi
