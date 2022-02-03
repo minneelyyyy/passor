@@ -9,8 +9,6 @@
 #include <sys/time.h>
 #endif
 
-#define inrange(c, a, z) a <= c && c <= z
-
 static const char *all_chars = "!\"#$&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 static const char *uppercase_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const char *lowercase_chars = "abcdefghijklmnopqrstuvwxyz";
