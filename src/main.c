@@ -68,12 +68,11 @@ int main(int argc, char *argv[])
 				".numbers                = %d\n"
 				".symbols                = %d\n"
 				".spaces                 = %d\n"
-				".base64                 = %d\n"
-				".base16                 = %d\n"
+				".special                = %d\n"
 				".debug                  = %d\n"
 				".characters_not_allowed = \"%s\"\n"
 				".length                 = %d\n",
-				options.lower, options.upper, options.numbers, options.symbols, options.spaces, options.base64, options.base16, options.debug, options.characters_not_allowed, options.length
+				options.lower, options.upper, options.numbers, options.symbols, options.spaces, options.special, options.debug, options.characters_not_allowed, options.length
 			);
 		}
 	#endif
@@ -85,6 +84,7 @@ int main(int argc, char *argv[])
 		char *output = malloc(options.length + 1);
 	#else
 		char output[options.length + 1];
+		output[options.length] = '\0';
 	#endif
 	
 	fill_buff_rand(output, options);
