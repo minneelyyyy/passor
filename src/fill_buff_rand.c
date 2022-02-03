@@ -96,14 +96,7 @@ void fill_buff_rand(char *str, struct mode m)
 
 	#ifdef DEBUG
 		if (m.debug)
-		{
-			static bool already_run = false;
-
-			if (!already_run)
-				fprintf(stderr, "\"%s\"\n", usable_chars);
-
-			already_run = true;
-		}
+			fprintf(stderr, "\"%s\"\n", usable_chars);
 	#endif
 
 	if (!strcmp(usable_chars, ""))
