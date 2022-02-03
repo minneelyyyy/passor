@@ -5,6 +5,8 @@
 
 enum special_modes { NONE, BASE64, BASE16 };
 
+#define SIZEOF_NA_CHARS 64
+
 struct mode
 {
 	// flags for basic generation
@@ -19,7 +21,7 @@ struct mode
 
 	// other
 	bool debug : 1;
-	char characters_not_allowed[64];
+	char characters_not_allowed[SIZEOF_NA_CHARS];
 	int length;
 };
 
