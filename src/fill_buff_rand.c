@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mode.h"
+#include "exit_codes.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -100,7 +101,7 @@ void fill_buff_rand(char *str, struct mode m)
 	if (!strcmp(usable_chars, ""))
 	{
 		fprintf(stderr, "passor: error: no printable characters\n");
-		exit(12);
+		exit(NO_AVAILABLE_CHARACTERS);
 	}
 
 	for (int i = 0; i < m.length; i++)
