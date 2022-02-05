@@ -5,14 +5,24 @@
 #include "parse_opts.h"
 #include "fill_buff_rand.h"
 #include "mode.h"
+#include "exit_codes.h"
 
+#ifndef MAX_LENGTH
+#	define MAX_LENGTH 100000
+#endif
 
+// stores the first argument in argv
+//    ./passor 24 :  program_name = "./passor"
+//    passor 24   :  program_name = "passor"
 static char *program_name;
 
-
+// prints help message which describes how to use the program
+// then exits with exit_status
 void help(int exit_status)
 {
 	fprintf(
+		// if program exit status is an error val then print to stderr,
+		// otherwise print to stdout
 		exit_status ? stderr : stdout,
 		"Usage: %s [OPTION]... [LENGTH]\n"
 		"generate a password / random string\n"
@@ -29,7 +39,7 @@ void help(int exit_status)
 		"  -X, --base64              generate a base64 string\n"
 		"  -x, --base16              generate a base16 string\n"
 		"\n",
-		program_name
+		program_name // this is the only real use of program_name
 	);
 
 	exit(exit_status);
@@ -37,12 +47,17 @@ void help(int exit_status)
 
 int main(int argc, char *argv[])
 {
+	// set program_name to the first argument, the name of the program
+	// this is safe because argv will always have at least one argument, no exception
 	program_name = argv[0];
 
+	// check if the user asks for help. we need to verify the argument count
+	// because if we try to check argv[>0] and there arent that many arguments
+	// the program will crash
 	if (argc > 1 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")))
 		help(0);
 
-	/* options for string generation, these are the defaults */
+	// options for string generation, these are the defaults
 	struct mode options = {
 		.lower   = true,
 		.upper   = true,
@@ -55,10 +70,11 @@ int main(int argc, char *argv[])
 		.length  = 8
 	};
 
-	/* fill the options struct with correct, user given values instead of defaults */
+	// fill the options struct with correct, user given values instead of defaults
 	parse_opts(&options, argc, argv);
 
 	#ifdef DEBUG
+		// activate this debug info with the '--debug' command line option (only for debug builds)
 		if (options.debug)
 		{
 			printf(
@@ -77,15 +93,23 @@ int main(int argc, char *argv[])
 		}
 	#endif
 
+	// exit the program if the user specifies <=0 as the length
 	if (options.length <= 0)
 		return 0;
+	
+	if (options.length > MAX_LENGTH)
+	{
+		fprintf(stderr, "passor: error: length specified too long\n");
+		exit(SPECIFIED_LENGTH_OVER_MAX);
+	}
 
 	#ifdef HEAP_BUFFER
 		char *output = malloc(options.length + 1);
 	#else
 		char output[options.length + 1];
-		output[options.length] = '\0';
 	#endif
+
+	output[options.length] = '\0';
 	
 	fill_buff_rand(output, options);
 
