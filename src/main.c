@@ -88,7 +88,9 @@ int main(int argc, char *argv[])
 				".debug                  = %d\n"
 				".characters_not_allowed = \"%s\"\n"
 				".length                 = %d\n",
-				options.lower, options.upper, options.numbers, options.symbols, options.spaces, options.special, options.debug, options.characters_not_allowed, options.length
+				options.lower, options.upper, options.numbers, options.symbols,
+				options.spaces, options.special, options.debug,
+				options.characters_not_allowed, options.length
 			);
 		}
 	#endif
