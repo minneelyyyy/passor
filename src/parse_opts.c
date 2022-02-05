@@ -66,7 +66,7 @@ static bool is_zero(char *str)
 
 static bool is_long_option(const char *option)
 {
-	return (strlen(option)) > 1 ? option[0] == '-' && option[1] == '-' : false;
+	return (strlen(option)) > 1 ? (option[0] == '-' && option[1] == '-') : false;
 }
 
 void parse_opts(struct mode *m, int argc, char *argv[])
