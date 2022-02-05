@@ -66,7 +66,7 @@ static bool is_zero(char *str)
 
 static bool is_long_option(const char *option)
 {
-	return (strlen(option)) > 1 ? (option[0] == '-' && option[1] == '-') : false;
+	return strlen(option) > 1 ? option[0] == '-' && option[1] == '-' : false;
 }
 
 static bool is_flag(const char *flags)
@@ -226,7 +226,8 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 		}
 		else if (is_long_option(argv[i]))
 		{
-			// add return to i because some arguments take a second argument
+			// add return to i because some arguments take a second argument, this function
+			// returns the amount of arguments to skip
 			i += parse_long_option(m, argv + i, argc - i);
 		}
 		else if (is_flag(argv[i]))
