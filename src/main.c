@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 	
 	if (options.length > MAX_LENGTH)
 	{
-		fprintf(stderr, "passor: error: length specified too long\n");
+		fprintf(stderr, "passor: error: length specified too long (maximum: %d)\n", MAX_LENGTH);
 		exit(SPECIFIED_LENGTH_OVER_MAX);
 	}
 
