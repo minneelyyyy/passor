@@ -172,6 +172,13 @@ static void parse_flags(struct mode *m, char *flags)
 		switch (flags[i])
 		{
 			case '-':
+				// don't raise this error if it's the first character
+				// or if the string is longer than 1 chararacter
+				if (i > 0 || strlen(flags) == 1)
+				{
+					fprintf(stderr, "passor: error: %c is not a valid flag\n", flags[i]);
+					exit(INVALID_ARGUMENT);
+				}
 				break;
 
 			case 'U': common_flag_check(m->upper, true, "flag U")
