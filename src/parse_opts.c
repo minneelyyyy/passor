@@ -57,7 +57,8 @@
 /* check if a string is a zero, as in "0" or "000" */
 static bool is_zero(char *str)
 {
-	for (int i = 0; i < strlen(str); i++)
+	int i;
+	for (i = 0; i < strlen(str); i++)
 		if (str[i] != '0')
 			return false;
 
@@ -74,9 +75,9 @@ static bool is_flag(const char *flags)
 	return flags[0] == '-';
 }
 
-// returns amount of options you should skip
-//   0 for options that dont have any arguments (--no-upper)
-//   1 for options that have 1 argument (--dont-allow)
+/* returns amount of options you should skip
+ *   0 for options that dont have any arguments (--no-upper)
+ *   1 for options that have 1 argument (--dont-allow) */
 static int parse_long_option(struct mode *m, char **args, int args_len)
 {
 	int arg_skip_count = 0;         
@@ -167,13 +168,14 @@ static int parse_long_option(struct mode *m, char **args, int args_len)
 
 static void parse_flags(struct mode *m, char *flags)
 {
-	for (int i = 0; i < strlen(flags); i++)
+	int i;
+	for (i = 0; i < strlen(flags); i++)
 	{
 		switch (flags[i])
 		{
 			case '-':
-				// don't raise this error if it's the first character
-				// or if the string is longer than 1 chararacter
+				/* don't raise this error if it's the first character
+				 * or if the string is longer than 1 chararacter */
 				if (i > 0 || strlen(flags) == 1)
 				{
 					fprintf(stderr, "passor: error: %c is not a valid flag\n", flags[i]);
@@ -222,7 +224,8 @@ static void parse_flags(struct mode *m, char *flags)
 
 void parse_opts(struct mode *m, int argc, char *argv[])
 {
-	for (int i = 1; i < argc; i++)
+	int i;
+	for (i = 1; i < argc; i++)
 	{
 		int int_value_of_argument = atoi(argv[i]);
 		bool argument_is_int = (!!int_value_of_argument ? !!int_value_of_argument : is_zero(argv[i]));
@@ -233,8 +236,8 @@ void parse_opts(struct mode *m, int argc, char *argv[])
 		}
 		else if (is_long_option(argv[i]))
 		{
-			// add return to i because some arguments take a second argument, this function
-			// returns the amount of arguments to skip
+			/* add return to i because some arguments take a second argument, this function
+			 * returns the amount of arguments to skip */
 			i += parse_long_option(m, argv + i, argc - i);
 		}
 		else if (is_flag(argv[i]))

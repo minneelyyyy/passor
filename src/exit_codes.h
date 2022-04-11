@@ -80,7 +80,7 @@ enum exit_codes
      * raised in: fill_buff_rand.c, fill_buff_rand()
      ***********************************************************************************************************/
 
-    NO_AVAILABLE_CHARACTERS,
+    NO_AVAILABLE_CHARACTERS
 };
 
 #endif /* EXIT_CODES_H */

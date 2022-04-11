@@ -30,7 +30,8 @@ static void str_chr_remove(char *str, char c)
 
 static void remove_chars(char *str, const char *chars)
 {
-	for (int i = 0; i < strlen(chars); i++)
+	int i;
+	for (i = 0; i < strlen(chars); i++)
 	{
 		str_chr_remove(str, chars[i]);
 	}
@@ -38,10 +39,10 @@ static void remove_chars(char *str, const char *chars)
 
 static void get_usable_chars(char *str, struct mode m)
 {
-	strcpy(str, all_chars);
-
 	static const char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+";
 	static const char *base16_chars = "0123456789ABCDEF";
+
+	strcpy(str, all_chars);
 
 	switch (m.special)
 	{
@@ -77,7 +78,10 @@ static char get_rand_char(char *str)
 
 void fill_buff_rand(char *str, struct mode m)
 {
-	// seed random number generator
+	char usable_chars[256] = "";
+	int i;
+
+	/* seed random number generator */
 	#ifdef _WIN32
 		SYSTEMTIME st;
 		GetSystemTime(&st);
@@ -90,7 +94,6 @@ void fill_buff_rand(char *str, struct mode m)
 		srand(tv.tv_usec);
 	#endif
 
-	char usable_chars[256] = "";
 	get_usable_chars(usable_chars, m);
 
 	#ifdef DEBUG
@@ -104,6 +107,6 @@ void fill_buff_rand(char *str, struct mode m)
 		exit(NO_AVAILABLE_CHARACTERS);
 	}
 
-	for (int i = 0; i < m.length; i++)
+	for (i = 0; i < m.length; i++)
 		str[i] = get_rand_char(usable_chars);
 }
