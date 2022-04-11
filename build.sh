@@ -4,7 +4,7 @@ PROGRAMNAME="passor"
 
 CBUILDOPTS=(
     "-Wall" "-Werror" # warnings
-	"-std=c89" "-pedantic" # language
+    "-std=c89" "-pedantic" # language
 )
 
 SOURCEFILES=(
