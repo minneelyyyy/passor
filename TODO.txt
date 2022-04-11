@@ -1,1 +1,2 @@
  - create a man page
+ - create a .deb package
