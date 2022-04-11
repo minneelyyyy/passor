@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+#include "bool.h"
 #include "parse_opts.h"
 #include "fill_buff_rand.h"
 #include "mode.h"

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+#include "bool.h"
 #include "mode.h"
 #include "hash.h"
 #include "exit_codes.h"
