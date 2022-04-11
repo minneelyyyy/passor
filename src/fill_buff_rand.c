@@ -18,95 +18,95 @@ static const char *number_chars = "0123456789";
 
 static void str_chr_remove(char *str, char c)
 {
-	while (*str != c && *str != '\0')
-		str++;
+    while (*str != c && *str != '\0')
+        str++;
 
-	while (*str != '\0')
-	{
-		*str = *(str + 1);
-		str++;
-	}
+    while (*str != '\0')
+    {
+        *str = *(str + 1);
+        str++;
+    }
 }
 
 static void remove_chars(char *str, const char *chars)
 {
-	int i;
-	for (i = 0; i < strlen(chars); i++)
-	{
-		str_chr_remove(str, chars[i]);
-	}
+    int i;
+    for (i = 0; i < strlen(chars); i++)
+    {
+        str_chr_remove(str, chars[i]);
+    }
 }
 
 static void get_usable_chars(char *str, struct mode m)
 {
-	static const char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+";
-	static const char *base16_chars = "0123456789ABCDEF";
+    static const char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+";
+    static const char *base16_chars = "0123456789ABCDEF";
 
-	strcpy(str, all_chars);
+    strcpy(str, all_chars);
 
-	switch (m.special)
-	{
-		case NONE:
-			if (!m.upper)
-				remove_chars(str, uppercase_chars);
-			if (!m.lower)
-				remove_chars(str, lowercase_chars);
-			if (!m.symbols)
-				remove_chars(str, symbol_chars);
-			if (!m.numbers)
-				remove_chars(str, number_chars);
-			if (m.spaces)
-				strcat(str, " ");
-			break;
-		
-		case BASE64:
-			strcpy(str, base64_chars);
-			break;
-		
-		case BASE16:
-			strcpy(str, base16_chars);
-			break;
-	}
-	
-	remove_chars(str, m.characters_not_allowed);
+    switch (m.special)
+    {
+        case NONE:
+            if (!m.upper)
+                remove_chars(str, uppercase_chars);
+            if (!m.lower)
+                remove_chars(str, lowercase_chars);
+            if (!m.symbols)
+                remove_chars(str, symbol_chars);
+            if (!m.numbers)
+                remove_chars(str, number_chars);
+            if (m.spaces)
+                strcat(str, " ");
+            break;
+        
+        case BASE64:
+            strcpy(str, base64_chars);
+            break;
+        
+        case BASE16:
+            strcpy(str, base16_chars);
+            break;
+    }
+    
+    remove_chars(str, m.characters_not_allowed);
 }
 
 static char get_rand_char(char *str)
 {
-	return str[rand() % strlen(str)];
+    return str[rand() % strlen(str)];
 }
 
 void fill_buff_rand(char *str, struct mode m)
 {
-	char usable_chars[256] = "";
-	int i;
+    char usable_chars[256] = "";
+    int i;
 
-	/* seed random number generator */
-	#ifdef _WIN32
-		SYSTEMTIME st;
-		GetSystemTime(&st);
+    /* seed random number generator */
+    #ifdef _WIN32
+        SYSTEMTIME st;
+        GetSystemTime(&st);
 
-		srand(st.wMilliseconds);
-	#else
-		struct timeval tv;
-		gettimeofday(&tv, NULL);
+        srand(st.wMilliseconds);
+    #else
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
 
-		srand(tv.tv_usec);
-	#endif
+        srand(tv.tv_usec);
+    #endif
 
-	get_usable_chars(usable_chars, m);
+    get_usable_chars(usable_chars, m);
 
-	#ifdef DEBUG
-		if (m.debug)
-			fprintf(stderr, "\"%s\"\n", usable_chars);
-	#endif
+    #ifdef DEBUG
+        if (m.debug)
+            fprintf(stderr, "\"%s\"\n", usable_chars);
+    #endif
 
-	if (!strcmp(usable_chars, ""))
-	{
-		fprintf(stderr, "passor: error: no printable characters\n");
-		exit(NO_AVAILABLE_CHARACTERS);
-	}
+    if (!strcmp(usable_chars, ""))
+    {
+        fprintf(stderr, "passor: error: no printable characters\n");
+        exit(NO_AVAILABLE_CHARACTERS);
+    }
 
-	for (i = 0; i < m.length; i++)
-		str[i] = get_rand_char(usable_chars);
+    for (i = 0; i < m.length; i++)
+        str[i] = get_rand_char(usable_chars);
 }
